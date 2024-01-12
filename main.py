@@ -94,6 +94,8 @@ def admin_only(f):
     return decorated_func
 
 
+
+# Register route
 @app.route('/register', methods=["GET", "POST"])
 def register():
 
@@ -132,6 +134,7 @@ def load_user(user_id):
     return db.get_or_404(User, user_id)
 
 
+# Login route
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -155,6 +158,7 @@ def login():
     return render_template("login.html", form=form, current_user=current_user)
 
 
+# Logout route
 @app.route('/logout')
 def logout():
     logout_user()
@@ -232,7 +236,7 @@ def edit_post(post_id):
     return render_template("make-post.html", form=edit_form, is_edit=True)
 
 
-# TODO: Use a decorator so only an admin user can delete a post
+# Decorator so only an admin user can delete a post
 @app.route("/delete/<int:post_id>")
 @admin_only
 def delete_post(post_id):
