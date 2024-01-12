@@ -286,7 +286,7 @@ def profile():
         flash('Profile updated successfully', 'success')
         return redirect(url_for('profile'))
 
-    return render_template('user_page.html', form=form)
+    return render_template('user-page.html', form=form)
 
 
 @app.route("/about")

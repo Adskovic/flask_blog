@@ -196,6 +196,12 @@
 body {
   text-decoration: none;
   margin: 0 200px 0 200px;
+  min-height: 100vh;
+}
+
+.sticky-footer {
+  position: sticky;
+  top: 100%;
 }
 
 /* Commment Styling */
