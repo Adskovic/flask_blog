@@ -204,6 +204,18 @@ body {
   top: 100%;
 }
 
+.profile-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-picture-container img {
+  width: 150px;
+  border-radius: 50%;
+}
+
 /* Commment Styling */
 .commentBox {
   padding:10px;

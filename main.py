@@ -2,7 +2,6 @@ from datetime import date
 from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
-from flask_gravatar import Gravatar
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
@@ -29,18 +28,6 @@ db = SQLAlchemy()
 db.init_app(app)
 
 
-# GRAVATAR FOR USERS PROFILE PICTURES
-gravatar = Gravatar(
-    app,
-    size=100,
-    rating='g',
-    default='retro',
-    force_default=False,
-    force_lower=False,
-    use_ssl=False,
-    base_url=None
-)
-
 
 # CONFIGURE TABLES
 
@@ -52,6 +39,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(50))
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
+    profile_picture = db.Column(db.String(255), default="/static/assets/img/profile_pictures/astronaut.png")
 
 
 class BlogPost(db.Model):
