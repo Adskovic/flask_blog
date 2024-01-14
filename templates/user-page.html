@@ -4,21 +4,21 @@
 
 <body>
     <div class="container-fluid m-5">
+        <!-- Flash messeges -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash alert alert-{{ category }} mx-5" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <div class="h-100 p-5 mx-5 bg-body-tertiary border rounded-3">
 
-            <!-- flash messeges -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash-{{ category }} m-2">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
 
             <!-- Profile picture -->
-            <div class="profile-header">
+            <div class="profile-header justify-content-center">
                 <div class="profile-picture-container">
                     <img src="{{ current_user.profile_picture }}" alt="Profile Picture">
                 </div>
@@ -26,19 +26,18 @@
 
             <!-- Profile information -->
             <div class="profile-section">
-                <h2>Profile Information</h2>
-                <p><strong>Username:</strong> {{ current_user.username }}</p>
+                <h2 class="mb-2">Profile Information</h2>
+                <p><strong>Name:</strong> {{ current_user.name }}</p>
                 <p><strong>Email:</strong> {{ current_user.email }}</p>
-                <button class="edit-btn btn btn-outline-secondary" onclick="startEditing()">Edit Profile</button>
+                <button class="edit-btn btn btn-outline-secondary my-3" onclick="startEditing()">Edit Profile</button>
             </div>
             <!-- Profile information change form -->
             <div class="profile-form" style="display: none;">
                 <h2>Edit Profile</h2>
-                {{ render_form(form, novalidate=True, button_map={"submit": "primary", "cancel": "danger"}) }}
-                <button class="btn btn-outline-secondary" type="button" onclick="cancelEditing()">Cancel</button>
+                {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+                <button class="cancel btn btn-outline-danger my-2" type="button" onclick="cancelEditing()">Cancel</button>
             </div>
 
-            </div>
         </div>
     </div>
 </body>
@@ -54,7 +53,7 @@
     function cancelEditing() {
         document.querySelector('.profile-section').style.display = 'block';
         document.querySelector('.profile-form').style.display = 'none';
-        document.querySelector('.edit-btn').style.display = 'block';
+        document.querySelector('.edit-btn').style.display = 'inline-block';
     }
 </script>
 

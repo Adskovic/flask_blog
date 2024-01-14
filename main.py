@@ -93,7 +93,7 @@ def register():
         result = db.session.execute(db.select(User).where(User.email==form.email.data))
         user = result.scalar()
         if user:
-            flash("You've already signed up with that email, log in instead!")
+            flash("You've already signed up with that email, log in instead", "danger")
             return redirect(url_for('login'))
 
         # Password hashing and salting
@@ -133,14 +133,15 @@ def login():
         user = result.scalar()
 
         if not user:
-            flash("This email does not exist, please try again.")
+            flash("This email does not exist, please try again", "danger")
             return redirect(url_for("login"))
         
         elif not check_password_hash(user.password, password):
-            flash("Incorrect password, please try again.")
+            flash("Incorrect password, please try again", "danger")
     
         else:
             login_user(user)
+            flash("Logged in successfully", "success")
             return redirect(url_for("get_all_posts"))
 
     return render_template("login.html", form=form, current_user=current_user)
@@ -150,6 +151,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash("Signed out", "warning")
     return redirect(url_for('get_all_posts'))
 
 
@@ -168,7 +170,7 @@ def show_post(post_id):
     # Only allow logged-in users to comment on posts
     if comment_form.validate_on_submit():
         if not current_user.is_authenticated:
-            flash("You need to login or register to comment.")
+            flash("You need to login or register to comment", "danger")
             return redirect(url_for("login"))
 
         new_comment = Comment(

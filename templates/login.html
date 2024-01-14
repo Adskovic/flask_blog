@@ -1,5 +1,5 @@
-{% from "bootstrap5/form.html" import render_form %} {% block content %} {%
-include "header.html" %}
+{% from "bootstrap5/form.html" import render_form %} 
+{% include "header.html" %}
 
 
 
@@ -13,23 +13,26 @@ include "header.html" %}
     </div>
   </header>
 
+<!-- Flash messeges -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash alert alert-{{ category }} mx-5" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 <main class="mb-4">
   <div class="container">
     <div class="row">
-      <!-- TODO: add a flash message here for users registering twice -->
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-      {% for message in messages %}
-      <p class="flash">{{ message }}</p>
-      {% endfor %}
-      {% endif %}
-      {% endwith %}
       <div class="col-lg-8 col-md-10 mx-auto">
-        <!--TODO: render login form here-->
+        <!--Login form-->
         {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
       </div>
     </div>
   </div>
 </main>
 
-{% include "footer.html" %} {% endblock %}
+{% include "footer.html" %}
