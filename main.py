@@ -7,7 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
-# Import your forms from the forms.py
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditProfileForm
 
 
@@ -18,7 +17,7 @@ app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
-# TODO: Configure Flask-Login
+# FLASK_LOGIN CONFIG
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -158,7 +157,9 @@ def logout():
 @app.route('/')
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
-    posts = result.scalars().all()
+    page = request.args.get("page", 1, type=int)
+    posts = BlogPost.query.paginate(page=page, per_page=3)
+    # posts = result.scalars().all()
     return render_template("index.html", all_posts=posts)
 
 

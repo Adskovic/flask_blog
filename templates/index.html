@@ -27,7 +27,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
 
                 <!-- Post preview-->
-                {% for post in all_posts %}
+                {% for post in all_posts.items %}
                 <div class="post-preview ">
                   <a href="{{ url_for('show_post', post_id=post.id) }}">
                     <h2 class="post-title">{{ post.title }}</h2>
@@ -40,7 +40,7 @@
 
                     <!-- Only show delete button if user id is 1 (admin user) -->
                     {% if current_user.id == 1 %}
-                    <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
+                    <a href="{{url_for('delete_post', post_id=post.id) }}" style="color: crimson">✘</a>
                     {% endif %}
                   </p>
                 </div>
@@ -62,9 +62,50 @@
                 {% endif %}
 
                 <!-- Pager-->
-                <div class="d-flex justify-content-end mb-4">
-                    <a class="btn btn-primary text-uppercase" href="#">Older Posts →</a>
-                </div>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination mt-5 justify-content-center">
+
+                    <!-- Previous page -->
+                    {% if all_posts.has_prev %}
+                      <li class="page-item">
+                        <a class="page-link" href="{{ url_for('get_all_posts', page=all_posts.prev_num)}}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                    {% endif %}
+
+                    <!-- Pagination -->
+                    {% for page_num in all_posts.iter_pages() %}
+                      {% if page_num %}
+                        {% if all_posts.page == page_num %}
+                          <li class="page-item"><a class="page-link active" href="{{ url_for('get_all_posts', page=page_num )}}">{{ page_num }}</a></li>
+                        {% else %}
+                          <li class="page-item"><a class="page-link" href="{{ url_for('get_all_posts', page=page_num )}}">{{ page_num }}</a></li>
+                        {% endif %}
+                      {% else %}
+                      ...
+                      {% endif %}
+                    {% endfor %}
+
+                    <!-- Next page -->
+                    {% if all_posts.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="{{ url_for('get_all_posts', page=all_posts.next_num)}}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+
             </div>
         </div>
     </div>
