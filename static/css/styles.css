@@ -182,6 +182,7 @@ body {
   min-height: 100vh;
 }
 
+
 a {
   color: #2798c4;
 }
@@ -189,6 +190,14 @@ a {
 .nav-link {
   font-weight: 400;
   color: #212529
+}
+
+header.masthead {
+  position: relative;
+  background: no-repeat center center;
+  background-color: #6c757d;
+  background-size: cover;
+  text-shadow: 4px 4px 10px rgba(48, 48, 48, 0.616);
 }
 
 .btn-primary {
