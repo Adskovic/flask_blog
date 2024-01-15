@@ -1,67 +1,78 @@
 {% from "bootstrap5/form.html" import render_form %}
 {% include "header.html" %}
 
-<!-- Page Header-->
-
-<header class="masthead mx-5 rounded-4 my-3" style="background-image: url('{{post.img_url}}');">
-  <div class="p-3 me-3 rounded-3">
-    <div class="container-fluid py-5 text-center text-light rounded-3">
-      <h1>{{ post.title }}</h1>
-      <h2 class="subheading">{{ post.subtitle }}</h2>
-      <span class="meta"
-        >Posted by
-        <!-- Changed from post.author -->
-        <a href="#">{{ post.author.name }}</a>
-        on {{ post.date }}
-      </span>
+<header class="masthead mx-5 rounded-4 my-3" style="background-image: url('{{ post.img_url }}');">
+    <div class="p-3 me-3 rounded-3">
+        <div class="container-fluid py-5 text-center text-light rounded-3">
+            <h1>{{ post.title }}</h1>
+            <h2 class="subheading">{{ post.subtitle }}</h2>
+            <span class="meta">
+                Posted by
+                <a href="#" class="text-decoration-none">{{ post.author.name }}</a>
+                on {{ post.date }}
+            </span>
+        </div>
     </div>
-  </div>
 </header>
 
-<!-- Post Content -->
 <article>
-  <div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7">
-        {{ post.body|safe }}
-        <!--Only show Edit Post button if user id is 1 (admin user) -->
-        {% if current_user.id == 1 %}
-        <div class="d-flex justify-content-end mb-4">
-          <a
-            class="btn btn-primary float-right"
-            href="{{url_for('edit_post', post_id=post.id)}}"
-            >Edit Post</a
-          >
-        </div>
-        {% endif %}
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {{ post.body|safe }}
 
-        <!-- Comments Area -->
-        <!-- Load the CKEditor -->
-        {{ ckeditor.load() }}
-        <!-- Configure it with the name of the form field from CommentForm -->
-        {{ ckeditor.config(name='comment_text') }}
-        <!-- Create the wtf quick form from CommentForm -->
-        {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
-        <div class="comment">
-          <ul class="commentList">
-            <!-- Show all comments -->
-            {% for comment in post.post_comments: %}
-            <li>
-              <div class="commenterImage">
-                <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block"/>
-              </div>
-              <div class="commentText">
-                {{comment.text|safe}}
-                <span class="sub-text">{{comment.comment_author.name}}</span>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
+                <!-- Only show Edit Post button if user id is 1 (admin user) -->
+                {% if current_user.id == 1 %}
+                <div class="d-flex">
+                    <a class="btn btn-primary" href="{{url_for('edit_post', post_id=post.id)}}">Edit Post</a>
+                </div>
+                {% endif %}
 
+                <!-- Comments Area -->
+                <!-- Load the CKEditor -->
+                {{ ckeditor.load() }}
+                
+                <!-- Comment Form Container -->
+                <div class="comment-form-container hidden">
+                    <!-- Create the wtf quick form from CommentForm -->
+                    {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+                </div>
+
+                <!-- Add Comment / Cancel button -->
+                <button class="btn btn-primary my-2" id="addCommentButton" onclick="toggleCommentForm()">Add Comment</button>
+
+                <div class="comment">
+                    <ul class="commentList">
+                        <!-- Show all comments -->
+                        {% for comment in post.post_comments %}
+                            <li>
+                                <div class="commenterImage">
+                                    <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block"/>
+                                </div>
+                                <div class="commentText">
+                                    {{ comment.text|safe }}
+                                    <span class="sub-text">{{ comment.comment_author.name }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </article>
 
 {% include "footer.html" %}
+
+<script>
+    // Toggle Comment Form visibility
+    function toggleCommentForm() {
+        var commentFormContainer = document.querySelector('.comment-form-container');
+        var addCommentButton = document.getElementById('addCommentButton');
+
+        commentFormContainer.classList.toggle('hidden');
+        addCommentButton.innerText = (addCommentButton.innerText === 'Add Comment') ? 'Cancel' : 'Add Comment';
+        addCommentButton.classList.toggle('btn-primary');
+        addCommentButton.classList.toggle('btn-danger');
+    }
+</script>
