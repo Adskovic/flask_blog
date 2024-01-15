@@ -48,7 +48,7 @@
             {% for comment in post.post_comments: %}
             <li>
               <div class="commenterImage">
-                <img src="{{ comment.comment_author.email | gravatar }}" /> <!-- fix comment avatars -->
+                <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block"/>
               </div>
               <div class="commentText">
                 {{comment.text|safe}}
