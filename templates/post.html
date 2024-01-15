@@ -47,7 +47,7 @@
                         {% for comment in post.post_comments %}
                             <li>
                                 <div class="commenterImage">
-                                    <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block"/>
+                                    <a href="#"><img src="{{ comment.comment_author.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block"/></a>
                                 </div>
                                 <div class="commentText">
                                     {{ comment.text|safe }}

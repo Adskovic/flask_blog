@@ -38,7 +38,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(50))
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
-    profile_picture = db.Column(db.String(255), default="/static/assets/img/profile_pictures/astronaut.png")
+    profile_picture = db.Column(db.String(255), default="/static/assets/img/profile_pictures/astronaut.jpg")
 
 
 class BlogPost(db.Model):
@@ -235,6 +235,7 @@ def delete_post(post_id):
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for('get_all_posts'))
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
