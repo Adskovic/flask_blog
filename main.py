@@ -6,7 +6,7 @@ from flask_login import UserMixin, login_user, LoginManager, current_user, logou
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, joinedload
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditProfileForm
 
 
@@ -159,7 +159,6 @@ def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
     page = request.args.get("page", 1, type=int)
     posts = BlogPost.query.paginate(page=page, per_page=3)
-    # posts = result.scalars().all()
     return render_template("index.html", all_posts=posts)
 
 
@@ -227,7 +226,7 @@ def edit_post(post_id):
     return render_template("make-post.html", form=edit_form, is_edit=True)
 
 
-# Decorator so only an admin user can delete a post
+# Only admin can delete a post
 @app.route("/delete/<int:post_id>")
 @admin_only
 def delete_post(post_id):
@@ -235,6 +234,26 @@ def delete_post(post_id):
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for('get_all_posts'))
+
+
+# Only comment author or admin can delete a comment
+@app.route("/delete_comment/<int:comment_id>")
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.options(joinedload(Comment.parent_post)).get(comment_id)
+
+    # Check if the current user is the comment author or an admin
+    if current_user.id == comment.comment_author.id or current_user.id == 1:
+        post_id = comment.parent_post.id
+        db.session.delete(comment)
+        db.session.commit()
+        flash("Comment deleted successfully", "success")
+    else:
+        flash("You don't have permission to delete this comment", "danger")
+        post_id = None
+
+    return redirect(url_for("show_post", post_id=post_id))
+
 
 
 @app.route('/profile', methods=['GET', 'POST'])

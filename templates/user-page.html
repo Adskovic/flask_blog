@@ -1,9 +1,22 @@
 {% include 'header.html' %}
 {% from "bootstrap5/form.html" import render_form %}
 
+<!-- Page Header-->
+<header class="masthead mx-5 rounded-4 my-3" style="background-image: url(/static/assets/img/home.jpg);">
+    <div class="p-3 me-3 rounded-3">
+      <div class="container-fluid py-5 text-center text-light rounded-3">
+        {% if msg_sent: %}
+        <h1>Successfully sent your message</h1>
+        {% else: %}
+        <h1>Contact Me</h1>
+        {% endif %}
+        <span class="subheading">Have questions? I have answers.</span>
+      </div>
+    </div>
+  </header>
 
-<body>
-    <div class="container-fluid m-5">
+<main>
+    <div class="container-fluid">
         <!-- Flash messeges -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -14,33 +27,35 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <div class="h-100 p-5 mx-5 bg-body-tertiary border rounded-3">
-
-
-            <!-- Profile picture -->
-            <div class="profile-header">
-                <div class="profile-picture-container">
-                    <img src="{{ current_user.profile_picture }}" alt="Profile Picture">
+        <div class="profile-container">
+            <div class="w-50 h-100 p-5 mx-5 bg-body-tertiary border rounded-3">
+    
+    
+                <!-- Profile picture -->
+                <div class="profile-header">
+                    <div class="profile-picture-container">
+                        <img src="{{ current_user.profile_picture }}" alt="Profile Picture">
+                    </div>
                 </div>
+    
+                <!-- Profile information -->
+                <div class="profile-section">
+                    <h2 class="mb-3">Profile Information</h2>
+                    <p><strong>Name:</strong> {{ current_user.name }}</p>
+                    <p><strong>Email:</strong> {{ current_user.email }}</p>
+                    <button class="edit-btn btn btn-outline-secondary my-3" onclick="startEditing()">Edit Profile</button>
+                </div>
+                <!-- Profile information change form -->
+                <div class="profile-form" style="display: none;">
+                    <h2>Edit Profile</h2>
+                    {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+                    <button class="cancel btn btn-outline-danger my-2" type="button" onclick="cancelEditing()">Cancel</button>
+                </div>
+    
             </div>
-
-            <!-- Profile information -->
-            <div class="profile-section">
-                <h2 class="mb-3">Profile Information</h2>
-                <p><strong>Name:</strong> {{ current_user.name }}</p>
-                <p><strong>Email:</strong> {{ current_user.email }}</p>
-                <button class="edit-btn btn btn-outline-secondary my-3" onclick="startEditing()">Edit Profile</button>
-            </div>
-            <!-- Profile information change form -->
-            <div class="profile-form" style="display: none;">
-                <h2>Edit Profile</h2>
-                {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
-                <button class="cancel btn btn-outline-danger my-2" type="button" onclick="cancelEditing()">Cancel</button>
-            </div>
-
         </div>
     </div>
-</body>
+</main>
 
 
 <script>

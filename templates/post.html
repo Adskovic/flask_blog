@@ -15,6 +15,17 @@
     </div>
 </header>
 
+<!-- Flash messeges -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash alert alert-{{ category }} mx-5" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <article>
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -52,6 +63,10 @@
                                 <div class="commentText">
                                     {{ comment.text|safe }}
                                     <span class="sub-text">{{ comment.comment_author.name }}</span>
+                                    {% if current_user and current_user.id == comment.comment_author.id or current_user.id == 1 %}
+                                        <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"><i class="bi bi-trash-fill"></i></a>
+                                    {% endif %}
+
                                 </div>
                             </li>
                         {% endfor %}

@@ -233,13 +233,18 @@ header.masthead {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
 }
 
 .profile-picture-container img {
   width: 150px;
   border-radius: 50%;
-  border: 1px solid #000;
+  border: 2px solid #fff;
 }
 
 .hidden {
