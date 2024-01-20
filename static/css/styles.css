@@ -218,6 +218,23 @@ header.masthead {
     --bs-btn-disabled-border-color: #0d6efd;
 }
 
+.btn-outline-primary {
+  --bs-btn-color: #2798c4;
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: #2798c4;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #2798c4;
+  --bs-btn-hover-border-color: #2798c4;
+  --bs-btn-focus-shadow-rgb: 49,132,253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #2798c4;
+  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #0d6efd;
+  --bs-btn-disabled-border-color: #0d6efd;
+}
+
 .pagination {
   --bs-pagination-color: #2798c4;
   --bs-pagination-active-bg: #2798c4;
@@ -251,53 +268,76 @@ header.masthead {
   display: none !important;
 }
 
-
 /* Commment Styling */
-.commentBox {
-  padding:10px;
-  border-top:1px dotted #bbb;
-}
-.commentBox .form-group:first-child, .actionBox .form-group:first-child {
-  width:80%;
-}
-.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
-  width:18%;
-}
-
 .comment {
-  padding-top: 20px;
-}
-.commentList {
-  padding:0;
-  list-style:none;
-  max-height:200px;
-  overflow:auto;
-}
-.commentList li {
-  margin:0;
-  margin-top:10px;
-}
-.commentList li > div {
-  display:table-cell;
-}
-.commenterImage {
-  width:30px;
-  margin-right:5px;
-  height:100%;
-  float:left;
-}
-.commenterImage img {
-  width:100%;
-  border-radius:50%;
-}
-.commentText p {
-  margin:0;
+  margin-top:20%;
 }
 
-.sub-text {
-  color:#aaa;
-  font-family:verdana;
-  font-size:13px;
+.commentCard {
+  overflow-wrap: break-word;
+  min-width: 60vh;
+  max-width: 60vh;
+  margin-bottom: 10px;
+}
+
+.commentList {
+  list-style: none;
+}
+
+.commentText {
+  font-size: 15px;
+}
+
+.post-comment {
+  min-width: 60vh;
+  max-width: 60vh;
+}
+
+.commenterInfo span {
+  margin-left: 10px;
+}
+
+.media-icons a {
+  text-decoration: none;
+  color: grey;
+}
+
+.commenterName {
+  font-weight: 600;
+}
+
+.formContainer {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 0;
+}
+
+
+.formContainer .form-label {
+  margin-left: 5px;
+  font-size: 13px;
+  font-weight: 100;
+}
+
+#comment_text {
+  padding-left: 5px;
+  resize: none;
+}
+
+.required {
+  margin-bottom: 10px!important;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.shadow-none {
+  box-shadow: none;
+}
+
+.date {
+  font-size: 11px;
 }
 
 /* Flash Message Styling */

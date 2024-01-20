@@ -40,36 +40,57 @@
                 {% endif %}
 
                 <!-- Comments Area -->
-                <!-- Load the CKEditor -->
-                {{ ckeditor.load() }}
-                
-                <!-- Comment Form Container -->
-                <div class="comment-form-container hidden">
-                    <!-- Create the wtf quick form from CommentForm -->
-                    {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
-                </div>
-
-                <!-- Add Comment / Cancel button -->
-                <button class="btn btn-primary my-2" id="addCommentButton" onclick="toggleCommentForm()">Add Comment</button>
-
                 <div class="comment">
-                    <ul class="commentList">
+                    <ul class="commentList col-md-8">
                         <!-- Show all comments -->
                         {% for comment in post.post_comments %}
-                            <li>
-                                <div class="commenterImage">
+                            <li class="commentCard bg-body-tertiary rounded-3 p-3">
+                                <div class="commenterInfo d-flex flex-row">
                                     <a href="#"><img src="{{ comment.comment_author.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block"/></a>
+                                    <div class="d-flex flex-column justify-content-start">
+                                        {% if comment.comment_author.id == 1 %}
+                                        <span class="commenterName" style="color: crimson;">{{ comment.comment_author.name }}</span>
+                                        {% else %}
+                                        <span class="commenterName">{{ comment.comment_author.name }}</span>
+                                        {% endif %}
+                                        <span class="date text-black-50" >Commented - {{ comment.created_at.strftime("%d %b %Y") }}</span>
+                                    </div>
                                 </div>
-                                <div class="commentText">
-                                    {{ comment.text|safe }}
-                                    <span class="sub-text">{{ comment.comment_author.name }}</span>
-                                    {% if current_user and current_user.id == comment.comment_author.id or current_user.id == 1 %}
-                                        <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"><i class="bi bi-trash-fill"></i></a>
-                                    {% endif %}
-
+                                <div class="commentTextArea mt-2">
+                                    <p class="commentText">{{comment.text|safe }}</p>
+                                </div>
+                                <div class="media-icons">
+                                    <div class="d-flex flex-row fs-12">
+                                        <div class="like p-1 cursor">
+                                            <a class="like-comment" href="#">
+                                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                                            </a>
+                                                <span class="ms-1">Like</span>
+                                        </div>
+                                        {% if current_user and current_user.id == comment.comment_author.id or current_user.id == 1 %}
+                                        <div class="delete p-1 cursor">
+                                            <a class="delete-comment" href="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a>
+                                                <span class="ms-1">Delete</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </li>
                         {% endfor %}
+                        <!-- Comment Form Container -->
+                        {% if current_user.is_authenticated %}
+                        <div class="post-comment bg-light rounded-3 p-2">
+                            <div class="d-flex flex-row align-items-start">
+                                <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block">
+                                    <div class="formContainer form-control bg-body-tertiary border-0 shadow-none">
+                                        {{ render_form(form, novalidate=True, button_map={"submit": "btn btn-outline-primary btn-sm"}) }}
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
