@@ -13,7 +13,7 @@
         <span class="subheading">Have questions? I have answers.</span>
       </div>
     </div>
-  </header>
+</header>
 
 <main>
     <div class="container-fluid">
@@ -43,13 +43,13 @@
                     <h2 class="mb-3">Profile Information</h2>
                     <p><strong>Name:</strong> {{ current_user.name }}</p>
                     <p><strong>Email:</strong> {{ current_user.email }}</p>
-                    <button class="edit-btn btn btn-outline-secondary my-3" onclick="startEditing()">Edit Profile</button>
+                    <button class="edit-btn btn btn-secondary my-3" onclick="startEditing()">Edit Profile</button>
                 </div>
                 <!-- Profile information change form -->
                 <div class="profile-form" style="display: none;">
                     <h2>Edit Profile</h2>
                     {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
-                    <button class="cancel btn btn-outline-danger my-2" type="button" onclick="cancelEditing()">Cancel</button>
+                    <button class="cancel btn btn-danger my-2" type="button" onclick="cancelEditing()">Cancel</button>
                 </div>
     
             </div>

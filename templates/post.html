@@ -30,17 +30,20 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                {{ post.body|safe }}
-
+                <div class="postBody">
+                    {{ post.body|safe }}
+                </div>
                 <!-- Only show Edit Post button if user id is 1 (admin user) -->
                 {% if current_user.id == 1 %}
-                <div class="d-flex">
-                    <a class="btn btn-primary" href="{{url_for('edit_post', post_id=post.id)}}">Edit Post</a>
+                <div class="editPost-btn d-flex">
+                    <a class="btn btn-primary" href="{{url_for('edit_post', post_id=post.id)}}"><i class="bi bi-pencil-fill"></i> Edit Post</a>
                 </div>
                 {% endif %}
 
+
                 <!-- Comments Area -->
-                <div class="comment">
+                <h4>{{ post.post_comments|length }} comments</h4>
+                <div class="comment border-top">
                     <ul class="commentList col-md-8">
                         <!-- Show all comments -->
                         {% for comment in post.post_comments %}
@@ -53,7 +56,7 @@
                                         {% else %}
                                         <span class="commenterName">{{ comment.comment_author.name }}</span>
                                         {% endif %}
-                                        <span class="date text-black-50" >Commented - {{ comment.created_at.strftime("%d %b %Y") }}</span>
+                                        <span class="date text-body-secondary" >Commented - {{ comment.created_at.strftime("%d %b %Y") }}</span>
                                     </div>
                                 </div>
                                 <div class="commentTextArea mt-2">
@@ -61,14 +64,23 @@
                                 </div>
                                 <div class="media-icons">
                                     <div class="d-flex flex-row fs-12">
-                                        <div class="like p-1 cursor">
-                                            <a class="like-comment" href="#">
+                                        <div class="like p-1 cursor text-body-secondary">
+                                            {% if current_user.is_authenticated %}
+                                            <a class="like-comment " href="#">
                                                 <i class="bi bi-hand-thumbs-up-fill"></i>
                                             </a>
                                                 <span class="ms-1">Like</span>
                                         </div>
+                                        {% else %}
+                                        <div class="like p-1 cursor text-body-secondary">
+                                            <!-- <a class="like-comment" href="#"> -->
+                                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                                            <!-- </a> -->
+                                                <span class="ms-1">Like</span>
+                                        </div>
+                                        {% endif %}
                                         {% if current_user and current_user.id == comment.comment_author.id or current_user.id == 1 %}
-                                        <div class="delete p-1 cursor">
+                                        <div class="delete p-1 cursor text-body-secondary">
                                             <a class="delete-comment" href="{{ url_for('delete_comment', comment_id=comment.id) }}">
                                                 <i class="bi bi-trash-fill"></i>
                                             </a>
