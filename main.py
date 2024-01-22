@@ -166,7 +166,7 @@ def get_all_posts():
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
 def show_post(post_id):
     requested_post = db.get_or_404(BlogPost, post_id)
-    # Add the CommentForm to the route
+    # Comment form
     comment_form = CommentForm()
     # Only allow logged-in users to comment on posts
     if comment_form.validate_on_submit():
@@ -269,11 +269,12 @@ def profile():
         new_password = form.password.data
         new_profile_picture = form.profile_picture.data
 
-        if new_username:
+        # Update data only if different
+        if new_username and new_username != current_user.username:
             current_user.username = new_username
         
         # Checking if new email field is not empty
-        if new_email:
+        if new_email and new_email != current_user.email:
             current_user.email = new_email
 
 
@@ -286,19 +287,24 @@ def profile():
             )
             current_user.password = hashed_password
 
-        if new_profile_picture:
+        if new_profile_picture and new_profile_picture != current_user.profile_picture:
             current_user.profile_picture = new_profile_picture
 
         if 'cancel' in request.form:
             pass
         else:
             db.session.commit()
-        
+            flash('Profile updated successfully', 'success')
 
-        flash('Profile updated successfully', 'success')
         return redirect(url_for('profile'))
 
     return render_template('user-page.html', form=form)
+
+
+@app.route('/user/<int:user_id>')
+def view_user_profile(user_id):
+    user = db.get_or_404(User, user_id)
+    return render_template('user-profile.html', user=user)
 
 
 @app.route("/about")

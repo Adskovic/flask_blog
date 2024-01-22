@@ -22,7 +22,6 @@ class RegisterForm(FlaskForm):
 
 
 
-
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
@@ -35,10 +34,11 @@ class CommentForm(FlaskForm):
     submit = SubmitField("Post")
 
 
+
 class EditProfileForm(FlaskForm):
-    username = StringField('Username')
-    email = EmailField('Email')
-    password = PasswordField('Password')
+    username = StringField('Username', render_kw={"placeholder": '{{ current_user.name }}' })
+    email = EmailField('Email', render_kw={"placeholder": "Enter your password"})
+    password = PasswordField('New password', render_kw={"placeholder": "••••••••"})
     profile_picture = SelectField('Profile Picture', choices=[
         ('/static/assets/img/profile_pictures/astronaut.jpg', 'Astronaut'), 
         ('/static/assets/img/profile_pictures/astro_female.jpg', 'Female Astronaut'),

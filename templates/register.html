@@ -3,15 +3,14 @@
 {% include "header.html" %}
 
 <!-- Page Header-->
-
-<header class="masthead mx-5 rounded-4 my-3" style="background-image: url(/static/assets/img/login-bg.jpg);">
+<header class="masthead mx-5 rounded-4 my-3" style="background-image: url(/static/assets/img/register-bg.jpg);">
   <div class="p-3 me-3 rounded-3">
     <div class="container-fluid py-5 text-center text-light rounded-3">
-      <h1 class="display-5 fw-bold">Register</h1>
-        <p class="fs-4">Start Contributing to the Blog!</p>
-      </div>
+      <h1>Register</h1>
+      <span class="subheading">Start Contributing to the Blog!</span>
     </div>
-  </header>
+  </div>
+</header>
 
 <!-- Flash messeges -->
 {% with messages = get_flashed_messages(with_categories=true) %}
