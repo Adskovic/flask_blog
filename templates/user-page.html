@@ -33,7 +33,7 @@
                         Nullam erat lectus, laoreet vitae accumsan ac, mollis et orci. Phasellus viverra euismod felis.</p>
                         <div class="user-info d-flex flex-column pt-2 mt-5 align-items-center justify-content-center">
                             <h4 class="pb-3">More info:</h4>
-                            <p><strong>Role:</strong>
+                            <p>Role:
                             {% if current_user.id == 1 %}
                             Admin
                             {% else %}
@@ -41,9 +41,9 @@
                             {% endif %}
                             <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i>
                             </p>
-                            <p><strong>Locaton:</strong> Warsaw <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
-                            <p><strong>Gender:</strong> Male <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
-                            <p><strong>Total comments:</strong> {{ current_user.comments|length }} <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
+                            <p>Locaton: Warsaw <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
+                            <p>Gender: Male <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
+                            <p>Total comments: {{ current_user.comments|length }} <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
                         </div>
                 </div>
                 <button class="edit-btn btn btn-secondary my-3" onclick="startEditing()">Edit Profile</button>
