@@ -38,7 +38,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(50))
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
-    profile_picture = db.Column(db.String(255), default="/static/assets/img/profile_pictures/astronaut.jpg")
+    profile_picture = db.Column(db.String(255), default="/static/assets/img/avatars/default-profile.jpg")
 
 
 class BlogPost(db.Model):
@@ -256,10 +256,16 @@ def delete_comment(comment_id):
     return redirect(url_for("show_post", post_id=post_id))
 
 
-
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
+    return render_template('user-page.html')
+
+
+
+@app.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
     
     form = EditProfileForm()
 
@@ -296,9 +302,9 @@ def profile():
             db.session.commit()
             flash('Profile updated successfully', 'success')
 
-        return redirect(url_for('profile'))
+        return redirect(url_for('settings'))
 
-    return render_template('user-page.html', form=form)
+    return render_template('user-settings.html', form=form)
 
 
 @app.route('/user/<int:user_id>')

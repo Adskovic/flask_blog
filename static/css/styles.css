@@ -328,7 +328,7 @@ header.masthead {
 .profile-picture-container img {
   width: 180px;
   border-radius: 50%;
-  border: 6px solid var(--bs-body-bg);
+  /* border: 6px solid var(--bs-body-bg); */
 }
 
 .hidden {

@@ -1,0 +1,75 @@
+{% include 'header.html' %}
+{% from "bootstrap5/form.html" import render_form %}
+
+<main>
+    <!-- Page Header-->
+    <div class="card mx-5 my-3 border-0">
+        <svg class="bd-placeholder-img card-img-top py-4 text-center text-light rounded-4" style="background-image: url(/static/assets/img/home.jpg);"></svg>
+        <!-- Flash messeges -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash alert alert-{{ category }} mx-5" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="card-body">
+                <!-- <div class="w-50 h-100 p-5 mx-5 bg-body-tertiary border rounded-3"> -->
+                    
+                    <!-- Profile picture -->
+                    <div class="profile-header">
+                        <div class="profile-picture-container">
+                            <img src="{{ current_user.profile_picture }}" alt="Profile Picture">
+                        </div>
+                    </div>
+                    
+                    <!-- Profile information -->
+                    <div class="profile-section mx-5 px-5 pt-3 d-flex flex-column align-items-center">
+                        <h1 class="mb-3">{{ current_user.name }}</h1>
+                        <div class="user-info d-flex flex-column mt-5 align-items-center justify-content-center">
+                            <button class="edit-btn btn btn-secondary my-3 ml-auto" onclick="startEditing()">Edit Profile</button>
+                            <h4 class="pb-3">General info:</h4>
+                            <p>Username: {{ current_user.name }}</p>
+                            <p>Email: {{ current_user.email }}</p>
+                            <p>Password: ••••••••</p>
+                        </div>
+                </div>
+                
+                <!-- Profile information change form -->
+                <div class="profile-form" style="display: none;">
+                    <h2>Edit Profile</h2>
+                    {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+                    <script>
+                        document.getElementById('username').placeholder = "{{ current_user.name }}";
+                        document.getElementById('email').placeholder = "{{ current_user.email }}";
+                    </script>
+                    <button class="cancel btn btn-danger my-2" type="button" onclick="cancelEditing()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function startEditing() {
+        document.querySelector('.profile-section').style.display = 'none';
+        document.querySelector('.profile-form').style.display = 'block';
+        document.querySelector('.edit-btn').style.display = 'none';
+    }
+
+    function cancelEditing() {
+        document.querySelector('.profile-section').style.display = 'block';
+        document.querySelector('.profile-form').style.display = 'none';
+        document.querySelector('.edit-btn').style.display = 'inline-block';
+    }
+
+    function updateSelectedAvatar(value) {
+        var profilePictureSelect = document.getElementById('profile_picture');
+        var option = Array.from(profilePictureSelect.options).find(opt => opt.value === value);
+        profilePictureSelect.value = option.value;
+    }
+</script>
+
+{% include "footer.html" %}
