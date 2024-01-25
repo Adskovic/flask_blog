@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship, joinedload
-from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditProfileForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditProfileForm, EditProfileInfoForm
 
 
 
@@ -27,7 +27,6 @@ db = SQLAlchemy()
 db.init_app(app)
 
 
-
 # CONFIGURE TABLES
 
 class User(UserMixin, db.Model):
@@ -39,6 +38,9 @@ class User(UserMixin, db.Model):
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
     profile_picture = db.Column(db.String(255), default="/static/assets/img/avatars/default-profile.jpg")
+    bio = db.Column(db.String(50))
+    location = db.Column(db.String(50))
+    gender = db.Column(db.String(10))
 
 
 class BlogPost(db.Model):
@@ -157,7 +159,6 @@ def logout():
 
 @app.route('/')
 def get_all_posts():
-    result = db.session.execute(db.select(BlogPost))
     page = request.args.get("page", 1, type=int)
     posts = BlogPost.query.paginate(page=page, per_page=3)
     return render_template("index.html", all_posts=posts)
@@ -256,10 +257,51 @@ def delete_comment(comment_id):
     return redirect(url_for("show_post", post_id=post_id))
 
 
+# @app.route('/profile', methods=['GET', 'POST'])
+# @login_required
+# def profile():
+#     form = EditProfileInfoForm()
+#     return render_template('user-page.html', form=form)
+
+
+# TODO: Fix issue with updating data and flash messages
 @app.route('/profile', methods=['GET', 'POST'])
-@login_required
 def profile():
-    return render_template('user-page.html')
+
+    form = EditProfileInfoForm()
+
+    if form.validate_on_submit():
+
+        new_bio = form.bio.data
+        new_location = form.location.data
+        new_gender = form.gender.data
+
+        if new_bio != current_user.bio:
+            current_user.bio = new_bio
+    
+
+        if new_location != current_user.location:
+            current_user.location = new_location
+
+
+        if new_gender != current_user.gender:
+            current_user.gender = new_gender
+
+            flash('Profile updated successfully', 'success')
+
+        else:
+            flash('Already there', 'warning')
+
+
+        db.session.commit()
+
+        
+        return redirect(url_for('profile'))
+    
+
+    return render_template('user-page.html', form=form)
+
+
 
 
 

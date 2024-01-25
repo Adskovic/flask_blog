@@ -39,6 +39,7 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username', render_kw={"placeholder": '{{ current_user.name }}' })
     email = EmailField('Email', render_kw={"placeholder": "Enter your password"})
     password = PasswordField('New password', render_kw={"placeholder": "••••••••"})
+
     profile_picture = SelectField('Profile Picture', choices=[
         ('/static/assets/img/avatars/default-profile.jpg', 'None'), 
         ('/static/assets/img/avatars/man_1.png', 'Man 1'),
@@ -62,4 +63,11 @@ class EditProfileForm(FlaskForm):
         ('/static/assets/img/avatars/woman_9.png', 'Woman 9'),
         ('/static/assets/img/avatars/woman_10.png', 'Woman 10'),
     ])
+    submit = SubmitField('Save Changes')
+
+
+class EditProfileInfoForm(FlaskForm):
+    bio = StringField('Bio')
+    location = StringField('Location')
+    gender = StringField('Gender')
     submit = SubmitField('Save Changes')

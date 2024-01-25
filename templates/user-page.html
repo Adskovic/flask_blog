@@ -28,9 +28,7 @@
                 <!-- Profile information -->
                 <div class="profile-section mx-5 px-5 pt-3 d-flex flex-column align-items-center">
                     <h1 class="mb-3">{{ current_user.name }}</h1>
-                    <p  class="text-center">Lorem ipsum dolor sit amet, 
-                        consectetur adipiscing elit. Aliquam nec placerat massa. Suspendisse ultrices pulvinar elementum. 
-                        Nullam erat lectus, laoreet vitae accumsan ac, mollis et orci. Phasellus viverra euismod felis.</p>
+                    <p  class="text-center">{{ current_user.bio }}</p>
                         <div class="user-info d-flex flex-column pt-2 mt-5 align-items-center justify-content-center">
                             <h4 class="pb-3">More info:</h4>
                             <p>Role:
@@ -41,8 +39,12 @@
                             {% endif %}
                             </p>
                             <p>Total comments: {{ current_user.comments|length }} </p>
-                            <p>Locaton: Warsaw <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
-                            <p>Gender: Male <i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
+                            <p>Location: {{ current_user.location }}<i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
+                            <p>Gender:{{ current_user.gender }}<i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
+
+                            <h2>Edit profile:</h2>
+                            {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
                         </div>
                 </div>
             </div>
