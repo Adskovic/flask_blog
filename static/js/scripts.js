@@ -78,3 +78,27 @@
       })
   })
 })()
+
+function startEditing() {
+  document.querySelector('.profile-section').style.display = 'none';
+  document.querySelector('.profile-form').style.display = 'block';
+  document.querySelector('.edit-btn').style.display = 'none';
+}
+
+function cancelEditing() {
+  document.querySelector('.profile-section').style.display = 'block';
+  document.querySelector('.profile-form').style.display = 'none';
+  document.querySelector('.edit-btn').style.display = 'inline-block';
+}
+
+function updateSelectedAvatar(value) {
+  var profilePictureSelect = document.getElementById('profile_picture');
+  var option = Array.from(profilePictureSelect.options).find(opt => opt.value === value);
+  profilePictureSelect.value = option.value;
+}
+
+function toggleForm(formId) {
+  event.preventDefault();
+  var form = document.getElementById(formId)
+  form.classList.toggle('hidden');
+}

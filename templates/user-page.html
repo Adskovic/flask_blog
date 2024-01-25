@@ -2,19 +2,24 @@
 {% from "bootstrap5/form.html" import render_form %}
 
 <main>
+
+    <!-- Flash messeges -->
+    <div class="flash mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash alert alert-{{ category }} mx-5" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
     <!-- Page Header-->
     <div class="card mx-5 my-3 border-0">
         <svg class="bd-placeholder-img card-img-top py-4 text-center text-light rounded-4" style="background-image: url(/static/assets/img/home.jpg);"></svg>
-        <!-- Flash messeges -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash alert alert-{{ category }} mx-5" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% endwith %}
+
             <div class="card-body">
                 <!-- <div class="w-50 h-100 p-5 mx-5 bg-body-tertiary border rounded-3"> -->
                     
@@ -26,9 +31,14 @@
                     </div>
     
                 <!-- Profile information -->
+                <!-- TODO: Fix issues with updating info and not working properly flash message -->
                 <div class="profile-section mx-5 px-5 pt-3 d-flex flex-column align-items-center">
                     <h1 class="mb-3">{{ current_user.name }}</h1>
-                    <p  class="text-center">{{ current_user.bio }}</p>
+                    <p  class="text-center">{{ current_user.bio }}<a href="#" onclick="toggleForm('editBioForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
+                        <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editBioForm">
+                            {{ form.csrf_token }}
+                            {{ form.bio }}
+                        </form>
                         <div class="user-info d-flex flex-column pt-2 mt-5 align-items-center justify-content-center">
                             <h4 class="pb-3">More info:</h4>
                             <p>Role:
@@ -39,12 +49,16 @@
                             {% endif %}
                             </p>
                             <p>Total comments: {{ current_user.comments|length }} </p>
-                            <p>Location: {{ current_user.location }}<i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
-                            <p>Gender:{{ current_user.gender }}<i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></p>
-
-                            <h2>Edit profile:</h2>
-                            {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
-
+                            <p>Location: {{ current_user.location }} <a href="#" onclick="toggleForm('editLocationForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
+                                <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editLocationForm">
+                                    {{ form.csrf_token }}
+                                    {{ form.location }}
+                                </form>
+                            <p>Gender:{{ current_user.gender }} <a href="#" onclick="toggleForm('editGenderForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
+                            <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editGenderForm">
+                                {{ form.csrf_token }}
+                                {{ form.gender }}
+                            </form>
                         </div>
                 </div>
             </div>

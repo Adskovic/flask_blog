@@ -339,7 +339,7 @@ def settings():
             current_user.profile_picture = new_profile_picture
 
         if 'cancel' in request.form:
-            pass
+            pass 
         else:
             db.session.commit()
             flash('Profile updated successfully', 'success')
