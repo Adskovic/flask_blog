@@ -71,19 +71,15 @@
                                 <div class="media-icons">
                                     <div class="d-flex flex-row fs-12">
                                         <div class="like p-1 cursor text-body-secondary">
+                                            <!-- TODO: Add working likes -->
                                             {% if current_user.is_authenticated %}
-                                            <a class="like-comment " href="#">
+                                            <a class="like-comment" href="#" onclick="likeComment({{ comment.id }})">
                                                 <i class="bi bi-hand-thumbs-up-fill"></i>
                                             </a>
-                                                <span class="ms-1">Like</span>
-                                        </div>
+                                            <span class="ms-1" id="likeCount_{{ comment.id }}">{{ comment.likes_count }}</span>
                                         {% else %}
-                                        <div class="like p-1 cursor text-body-secondary">
-                                            <!-- <a class="like-comment" href="#"> -->
-                                                <i class="bi bi-hand-thumbs-up-fill"></i>
-                                            <!-- </a> -->
-                                                <span class="ms-1">Like</span>
-                                        </div>
+                                            <i class="bi bi-hand-thumbs-up-fill"></i>
+                                            <span class="ms-1">{{ comment.likes_count }}</span>
                                         {% endif %}
                                         {% if current_user and current_user.id == comment.comment_author.id or current_user.id == 1 %}
                                         <div class="delete p-1 cursor text-body-secondary">
@@ -104,7 +100,6 @@
                                 <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block">
                                     <div class="formContainer form-control bg-body-tertiary border-0 shadow-none">
                                         {{ render_form(form, novalidate=True, button_map={"submit": "btn btn-outline-primary btn-sm"}) }}
-
                                     </div>
                                 </div>
                             </div>
@@ -129,4 +124,23 @@
         addCommentButton.classList.toggle('btn-primary');
         addCommentButton.classList.toggle('btn-outline-danger');
     }
+
+    function likeComment(commentId) {
+        // Wyślij żądanie AJAX
+        fetch(`/like_comment/${commentId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'  // Dodaj token CSRF
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Zaktualizuj licznik lajków na stronie
+            const likeCountElement = document.getElementById(`likeCount_${commentId}`);
+            likeCountElement.innerText = data.likes_count;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
 </script>

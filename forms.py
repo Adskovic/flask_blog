@@ -69,5 +69,9 @@ class EditProfileForm(FlaskForm):
 class EditProfileInfoForm(FlaskForm):
     bio = StringField('Bio')
     location = StringField('Location')
-    gender = StringField('Gender')
-    submit = SubmitField('Save Changes')
+    submit = SubmitField('Save')
+
+
+
+
+

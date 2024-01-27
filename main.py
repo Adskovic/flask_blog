@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from flask import Flask, abort, render_template, redirect, url_for, flash, request
+from flask import Flask, abort, jsonify, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
@@ -68,6 +68,8 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="post_comments")
     text = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    likes_count = db.Column(db.Integer, default=0)
+
 
 
 
@@ -257,50 +259,51 @@ def delete_comment(comment_id):
     return redirect(url_for("show_post", post_id=post_id))
 
 
-# @app.route('/profile', methods=['GET', 'POST'])
-# @login_required
-# def profile():
-#     form = EditProfileInfoForm()
-#     return render_template('user-page.html', form=form)
 
 
-# TODO: Fix issue with updating data and flash messages
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-
     form = EditProfileInfoForm()
 
     if form.validate_on_submit():
 
         new_bio = form.bio.data
         new_location = form.location.data
-        new_gender = form.gender.data
 
-        if new_bio != current_user.bio:
+
+        if new_bio is not None and new_bio != current_user.bio:
             current_user.bio = new_bio
-    
-
-        if new_location != current_user.location:
-            current_user.location = new_location
-
-
-        if new_gender != current_user.gender:
-            current_user.gender = new_gender
-
             flash('Profile updated successfully', 'success')
 
-        else:
+        elif new_bio is not None:
+            flash('Already there', 'warning')
+
+        if new_location is not None and new_location != current_user.location:
+            current_user.location = new_location
+            flash('Profile updated successfully', 'success')
+
+        elif new_location is not None:
             flash('Already there', 'warning')
 
 
         db.session.commit()
 
-        
         return redirect(url_for('profile'))
-    
 
     return render_template('user-page.html', form=form)
 
+
+# TODO: Add likes funcionality
+@app.route('/like_comment/<int:comment_id>', methods=['POST'])
+@login_required
+def like_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+
+    comment.likes_count += 1
+    db.session.commit()
+
+    return jsonify({'likes_count': comment.likes_count})
 
 
 

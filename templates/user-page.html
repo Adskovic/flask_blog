@@ -34,7 +34,7 @@
                 <!-- TODO: Fix issues with updating info and not working properly flash message -->
                 <div class="profile-section mx-5 px-5 pt-3 d-flex flex-column align-items-center">
                     <h1 class="mb-3">{{ current_user.name }}</h1>
-                    <p  class="text-center">{{ current_user.bio }}<a href="#" onclick="toggleForm('editBioForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
+                    <p  class="text-center">{{ current_user.bio }} <a href="#" onclick="toggleForm('editBioForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
                         <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editBioForm">
                             {{ form.csrf_token }}
                             {{ form.bio }}
@@ -52,13 +52,8 @@
                             <p>Location: {{ current_user.location }} <a href="#" onclick="toggleForm('editLocationForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
                                 <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editLocationForm">
                                     {{ form.csrf_token }}
-                                    {{ form.location }}
+                                    {{ form.location }} {{ form.submit }}
                                 </form>
-                            <p>Gender:{{ current_user.gender }} <a href="#" onclick="toggleForm('editGenderForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
-                            <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editGenderForm">
-                                {{ form.csrf_token }}
-                                {{ form.gender }}
-                            </form>
                         </div>
                 </div>
             </div>
