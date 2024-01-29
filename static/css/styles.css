@@ -409,6 +409,15 @@ header.masthead {
   font-size: 11px;
 }
 
+/* Like styling */
+.like-btn:hover {
+  color: #20639B;
+}
+
+.delete-btn:hover {
+  color: crimson
+}
+
 /* Flash Message Styling */
 .flash {
   text-align: center;

@@ -47,6 +47,7 @@
                 <h4>{{ post.post_comments|length }} comments</h4>
                 <div class="comment border-top">
                     <ul class="commentList col-md-8">
+                        
                         <!-- Show all comments -->
                         {% for comment in post.post_comments %}
                             <li class="commentCard rounded-3 p-3">
@@ -68,37 +69,47 @@
                                 <div class="commentTextArea mt-2">
                                     <p class="commentText">{{comment.text|safe }}</p>
                                 </div>
+
+                                <!-- Media icons -->
                                 <div class="media-icons">
                                     <div class="d-flex flex-row fs-12">
-                                        <div class="like p-1 cursor text-body-secondary">
-                                            <!-- TODO: Add working likes -->
-                                            {% if current_user.is_authenticated %}
-                                            <a class="like-comment" href="#" onclick="likeComment({{ comment.id }})">
-                                                <i class="bi bi-hand-thumbs-up-fill"></i>
-                                            </a>
-                                            <span class="ms-1" id="likeCount_{{ comment.id }}">{{ comment.likes_count }}</span>
-                                        {% else %}
-                                            <i class="bi bi-hand-thumbs-up-fill"></i>
-                                            <span class="ms-1">{{ comment.likes_count }}</span>
-                                        {% endif %}
-                                        {% if current_user and current_user.id == comment.comment_author.id or current_user.id == 1 %}
-                                        <div class="delete p-1 cursor text-body-secondary">
-                                            <a class="delete-comment" href="{{ url_for('delete_comment', comment_id=comment.id) }}">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </a>
-                                                <span class="ms-1">Delete</span>
-                                        </div>
-                                        {% endif %}
+                                        <div class="media-icons">
+                                            <div class="d-flex flex-row fs-12">
+                                                <div class="like p-1 d-flex cursor text-body-secondary text-center align-items-center">
+                                                    {% if current_user.is_authenticated %}
+                                                        <a class="like-comment" href="/like_comment/{{comment.id}}">
+                                                            {% if comment.likes|selectattr('author_id', 'eq', current_user.id)|list %}
+                                                                <i class="like-btn bi bi-hand-thumbs-up-fill" style="color: #20639B;"></i>
+                                                            {% else %}
+                                                                <i class="like-btn bi bi-hand-thumbs-up"></i>
+                                                            {% endif %}
+                                                        </a>
+                                                        <span class="ms-1">{{ comment.likes|length }} Like</span>
+                                                    {% else %}
+                                                        <i class="like-btn bi bi-hand-thumbs-up"></i>
+                                                        <span class="ms-1">{{ comment.likes|length }} Like</span>
+                                                    {% endif %}
+                                                </div>
+                                                {% if current_user and (current_user.id == comment.comment_author.id or current_user.id == 1) %}
+                                                    <div class="delete p-1 d-flex cursor text-body-secondary align-items-center">
+                                                        <a class="delete-comment" href="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                                                            <i class="delete-btn bi bi-trash-fill"></i>
+                                                        </a>
+                                                        <span class="ms-1">Delete</span>
+                                                    </div>
+                                                {% endif %}
                                     </div>
                                 </div>
                             </li>
                         {% endfor %}
+
                         <!-- Comment Form Container -->
                         {% if current_user.is_authenticated %}
                         <div class="post-comment bg-light rounded-3 p-2">
                             <div class="d-flex flex-row align-items-start">
                                 <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block">
                                     <div class="formContainer form-control bg-body-tertiary border-0 shadow-none">
+                                        {{ form.csrf_token() }}
                                         {{ render_form(form, novalidate=True, button_map={"submit": "btn btn-outline-primary btn-sm"}) }}
                                     </div>
                                 </div>
@@ -113,7 +124,7 @@
 
 {% include "footer.html" %}
 
-<script>
+<!-- <script>
     // Toggle Comment Form visibility
     function toggleCommentForm() {
         var commentFormContainer = document.querySelector('.comment-form-container');
@@ -125,22 +136,4 @@
         addCommentButton.classList.toggle('btn-outline-danger');
     }
 
-    function likeComment(commentId) {
-        // Wyślij żądanie AJAX
-        fetch(`/like_comment/${commentId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token() }}'  // Dodaj token CSRF
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Zaktualizuj licznik lajków na stronie
-            const likeCountElement = document.getElementById(`likeCount_${commentId}`);
-            likeCountElement.innerText = data.likes_count;
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-</script>
+</script> -->

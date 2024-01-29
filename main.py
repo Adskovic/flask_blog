@@ -41,6 +41,7 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(50))
     location = db.Column(db.String(50))
     gender = db.Column(db.String(10))
+    likes = relationship("Like", back_populates="users")
 
 
 class BlogPost(db.Model):
@@ -54,7 +55,7 @@ class BlogPost(db.Model):
     body = db.Column(db.Text, nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
     post_comments = relationship("Comment", back_populates="parent_post")
-
+    
 
 
 
@@ -69,6 +70,15 @@ class Comment(db.Model):
     text = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     likes_count = db.Column(db.Integer, default=0)
+    likes = relationship("Like", back_populates="comments")
+
+
+class Like(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
+    users = relationship("User", back_populates="likes")
+    comments = relationship("Comment", back_populates="likes")
 
 
 
@@ -295,15 +305,26 @@ def profile():
 
 
 # TODO: Add likes funcionality
-@app.route('/like_comment/<int:comment_id>', methods=['POST'])
+@app.route('/like_comment/<comment_id>', methods=['GET'])
 @login_required
 def like_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
+    like = Like.query.filter_by(author_id=current_user.id, comment_id=comment_id).first()
 
-    comment.likes_count += 1
-    db.session.commit()
+    if not comment:
+        flash("comment does not exist", "warning")
+    elif like:
+        db.session.delete(like)
+        db.session.commit()
+    else:
+        like = Like(author_id=current_user.id, comment_id=comment_id)
+        db.session.add(like)
+        db.session.commit()
 
-    return jsonify({'likes_count': comment.likes_count})
+    # comment.likes_count += 1
+    # db.session.commit()
+
+    return redirect(url_for('show_post', post_id=comment.parent_post.id))
 
 
 
