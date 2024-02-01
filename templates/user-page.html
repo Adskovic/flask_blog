@@ -20,26 +20,21 @@
     <div class="card mx-5 my-3 border-0">
         <svg class="bd-placeholder-img card-img-top py-4 text-center text-light rounded-4" style="background-image: url(/static/assets/img/home.jpg);"></svg>
 
-            <div class="card-body">
+            <div class="card-body mx-5">
                 <!-- <div class="w-50 h-100 p-5 mx-5 bg-body-tertiary border rounded-3"> -->
                     
-                    <!-- Profile picture -->
-                    <div class="profile-header">
-                        <div class="profile-picture-container">
-                            <img src="{{ current_user.profile_picture }}" alt="Profile Picture">
-                        </div>
-                    </div>
-    
-                <!-- Profile information -->
-                <!-- TODO: Fix issues with updating info and not working properly flash message -->
-                <div class="profile-section mx-5 px-5 pt-3 d-flex flex-column align-items-center">
-                    <h1 class="mb-3">{{ current_user.name }}</h1>
-                    <p  class="text-center">{{ current_user.bio }} <a href="#" onclick="toggleForm('editBioForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
-                        <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editBioForm">
-                            {{ form.csrf_token }}
-                            {{ form.bio }}
-                        </form>
-                        <div class="user-info d-flex flex-column pt-2 mt-5 align-items-center justify-content-center">
+                    
+                    <!-- Profile information -->
+                    <div class="d-flex flex-row gx-4 gx-lg-5">
+                        <div class="col-md-5 col-lg-4" style="background-color: brown; border-radius: 5px;">
+                            <!-- Profile picture -->
+                            <div class="profile-header">
+                                <div class="profile-picture-container">
+                                    <img src="{{ current_user.profile_picture }}" alt="Profile Picture">
+                                </div>
+                            </div>
+                        <h1 class="mb-3 text-center">{{ current_user.name }}</h1>
+                        <div class="user-info d-flex flex-column pt-2 mt-5 align-items-center">
                             <h4 class="pb-3">More info:</h4>
                             <p>Role:
                             {% if current_user.id == 1 %}
@@ -54,7 +49,16 @@
                                     {{ form.csrf_token }}
                                     {{ form.location }} {{ form.submit }}
                                 </form>
+                            </div>
                         </div>
+                        <div class="col-md-7 col-lg-8 mx-2" style="background-color: blueviolet; border-radius: 5px;">
+                            <p class="text-center">{{ current_user.bio }} <a href="#" onclick="toggleForm('editBioForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
+                                <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editBioForm">
+                                    {{ form.csrf_token }}
+                                    {{ form.bio }}
+                                </form>
+                        </div>
+
                 </div>
             </div>
         </div>
