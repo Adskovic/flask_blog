@@ -2,50 +2,49 @@
 {% from "bootstrap5/form.html" import render_form %}
 
 <main>
+
+    <!-- Flash messeges -->
+    <div class="flash mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash alert alert-{{ category }} mx-5" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
     <!-- Page Header-->
     <div class="card mx-5 my-3 border-0">
         <svg class="bd-placeholder-img card-img-top py-4 text-center text-light rounded-4" style="background-image: url(/static/assets/img/home.jpg);"></svg>
-
-        <!-- Flash messeges -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash alert alert-{{ category }} mx-5" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% endwith %}
-            <div class="card-body">
-
+        <div class="card-body mx-5">     
+            <!-- Profile information -->
+            <div class="row row-cols-lg-1 gx-4 gx-lg-5 justify-content-center">
+                <div class="user-info col-xl-3">
                     <!-- Profile picture -->
                     <div class="profile-header">
                         <div class="profile-picture-container">
                             <img src="{{ user.profile_picture }}" alt="Profile Picture">
                         </div>
                     </div>
-    
-                <!-- Profile information -->
-                <div class="profile-section mx-5 px-5 pt-3 d-flex flex-column align-items-center">
-                    <h1 class="mb-3">{{ user.name }}</h1>
-                    <p  class="text-center">Lorem ipsum dolor sit amet, 
-                        consectetur adipiscing elit. Aliquam nec placerat massa. Suspendisse ultrices pulvinar elementum. 
-                        Nullam erat lectus, laoreet vitae accumsan ac, mollis et orci. Phasellus viverra euismod felis.</p>
-                    <div class="user-info d-flex flex-column pt-2 mt-5 align-items-center justify-content-center">
-                        <h4 class="pb-3">More info:</h4>
-                        <p>Role: {{ "Admin" if user.id == 1 else "User" }}
-                        </p>
-                        <p>Locaton: Warsaw</p>
-                        <p>Gender: Male</p>
-                        <p>Total comments: {{ current_user.comments|length }}</p>
+                    <h1 class="mb-3 mt-5 text-center">{{ user.name }}</h1>
+                    <div class="pt-4 ps-4 mt-3 align-items-center">
+                        <p>Role: {{ "Admin" if user.id == 1 else "User" }}</p>
+                        <p>Joined: </p>
+                        <p>Total comments: {{ user.comments|length }} </p>
+                        <p>Email: {{ user.email }} </p>
+                        <p>Location: {{ user.location }}</p>
                     </div>
+                </div>
+                <!-- Profile Bio -->
+                <div class="user-bio col-xl-6 mx-2">
+                    <h4 class="mt-3">Bio:</h4>
+                    <p class="text-center mt-4">{{ user.bio }}</p>
                 </div>
             </div>
         </div>
     </div>
-</main>
-
-<main>
 </main>
 
 {% include "footer.html" %}

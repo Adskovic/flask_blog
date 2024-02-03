@@ -273,6 +273,7 @@ def delete_comment(comment_id):
 
 
 @app.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     form = EditProfileInfoForm()
 
@@ -373,6 +374,7 @@ def settings():
     return render_template('user-settings.html', form=form)
 
 
+# TODO: Fix view user profile
 @app.route('/user/<int:user_id>')
 def view_user_profile(user_id):
     user = db.get_or_404(User, user_id)
