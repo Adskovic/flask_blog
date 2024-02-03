@@ -35,7 +35,7 @@
                   </a>
                   <p class="post-meta">
                     Posted by
-                    <a href="#">{{post.author.name}}</a>
+                    <a href="{{ url_for('view_user_profile', user_id=post.author.id) }}">{{post.author.name}}</a>
                     on {{post.date}}
 
                     <!-- Only show delete button if user id is 1 (admin user) -->

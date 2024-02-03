@@ -305,7 +305,6 @@ def profile():
     return render_template('user-page.html', form=form)
 
 
-# TODO: Add likes funcionality
 @app.route('/like_comment/<comment_id>', methods=['GET'])
 @login_required
 def like_comment(comment_id):
@@ -374,11 +373,11 @@ def settings():
     return render_template('user-settings.html', form=form)
 
 
-# TODO: Fix view user profile
-@app.route('/user/<int:user_id>')
+
+@app.route('/user/id=<int:user_id>')
 def view_user_profile(user_id):
     user = db.get_or_404(User, user_id)
-    return render_template('user-profile.html', user=user)
+    return render_template('view-user-profile.html', user=user)
 
 
 @app.route("/about")
