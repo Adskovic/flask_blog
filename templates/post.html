@@ -10,7 +10,7 @@
         <h3 class="subheading">{{ post.subtitle }}</h2>
         <span class="meta">
             Posted by
-            <a href="#" class="text-decoration-none">{{ post.author.name }}</a>
+            <a href="{{ url_for('view_user_profile', user_id=post.author.id) }}" class="text-decoration-none">{{ post.author.name }}</a>
             on {{ post.date }}
         </span>
       </div>
