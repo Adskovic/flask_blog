@@ -62,16 +62,16 @@ class EditProfileForm(FlaskForm):
         ('/static/assets/img/avatars/woman_8.png', 'Woman 8'),
         ('/static/assets/img/avatars/woman_9.png', 'Woman 9'),
         ('/static/assets/img/avatars/woman_10.png', 'Woman 10'),
-    ])
+    ], render_kw={"placeholder": '{{ current_user.profile_picture }}' })
     submit = SubmitField('Save Changes')
 
+    def set_default_choices(self, user_profile_picture):
+        self.profile_picture.default = user_profile_picture
+        self.process()
 
+
+#TODO: Consider merging both edit profile forms into one
 class EditProfileInfoForm(FlaskForm):
     bio = StringField('Bio')
     location = StringField('Location')
     submit = SubmitField('Save')
-
-
-
-
-

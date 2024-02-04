@@ -28,7 +28,7 @@ db.init_app(app)
 
 
 # CONFIGURE TABLES
-
+#TODO: Add when user joined
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -57,14 +57,11 @@ class BlogPost(db.Model):
     post_comments = relationship("Comment", back_populates="parent_post")
     
 
-
-
 class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     comment_author = relationship("User", back_populates="comments")
-
     post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
     parent_post = relationship("BlogPost", back_populates="post_comments")
     text = db.Column(db.Text, nullable=False)

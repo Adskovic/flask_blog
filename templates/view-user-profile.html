@@ -28,9 +28,29 @@
                             <img src="{{ user.profile_picture }}" alt="Profile Picture">
                         </div>
                     </div>
-                    <h1 class="mb-3 mt-5 text-center">{{ user.name }}</h1>
+                    <h1 class="mb-3 mt-2 text-center">{{ user.name }}</h1>
+                    <div class="role-container text-center mt-3">
+                        {% if user.id == 1 %}
+                        <span class="p-1" style="
+                        border: 2px solid #ffc839;
+                        border-radius: 10px;
+                        background-color: #ffc839;
+                        color: #263449;">Admin</span>
+                        {% elif user.id == 2 %}
+                        <span class="p-1" style="
+                        border: 2px solid #c966a9;
+                        border-radius: 10px;
+                        background-color: #c966a9;
+                        color: #263449;">Moderator</span>
+                        {% else %}
+                        <span class="p-1" style="
+                        border: 2px solid #2798c4;
+                        border-radius: 10px;
+                        background-color: #2798c4;
+                        color: #263449;">User</span>
+                        {% endif %}
+                    </div>
                     <div class="pt-4 ps-4 mt-3 align-items-center">
-                        <p>Role: {{ "Admin" if user.id == 1 else "User" }}</p>
                         <p>Joined: </p>
                         <p>Total comments: {{ user.comments|length }} </p>
                         <p>Email: {{ user.email }} </p>
