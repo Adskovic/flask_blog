@@ -51,7 +51,7 @@
                         {% endif %}
                     </div>
                     <div class="pt-4 ps-4 mt-3 align-items-center">
-                        <p>Joined: </p>
+                        <p>Joined: {{ current_user.when_joined.strftime("%d %B %Y") }}</p>
                         <p>Total comments: {{ user.comments|length }} </p>
                         <p>Email: {{ user.email }} </p>
                         <p>Location: {{ user.location }}</p>

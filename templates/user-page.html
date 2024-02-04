@@ -50,7 +50,7 @@
                                 {% endif %}
                             </div>
                             <div class="pt-4 ps-4 mt-3 align-items-center">
-                                <p>Joined: </p>
+                                <p>Joined: {{ current_user.when_joined.strftime("%d %B %Y") }}</p>
                                 <p>Total comments: {{ current_user.comments|length }} </p>
                                 <p>Email: {{ current_user.email }} </p>
                                 <p>Location: {{ current_user.location }} <a href="#" onclick="toggleForm('editLocationForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>

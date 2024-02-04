@@ -36,10 +36,9 @@ class CommentForm(FlaskForm):
 
 
 class EditProfileForm(FlaskForm):
-    username = StringField('Username', render_kw={"placeholder": '{{ current_user.name }}' })
-    email = EmailField('Email', render_kw={"placeholder": "Enter your password"})
+    username = StringField('Username')
+    email = EmailField('Email')
     password = PasswordField('New password', render_kw={"placeholder": "••••••••"})
-
     profile_picture = SelectField('Profile Picture', choices=[
         ('/static/assets/img/avatars/default-profile.jpg', 'None'), 
         ('/static/assets/img/avatars/man_1.png', 'Man 1'),
@@ -65,7 +64,18 @@ class EditProfileForm(FlaskForm):
     ], render_kw={"placeholder": '{{ current_user.profile_picture }}' })
     submit = SubmitField('Save Changes')
 
-    def set_default_choices(self, user_profile_picture):
+
+    def set_default_username(self, username):
+        self.username.default = username
+        self.process()
+
+
+    def set_default_email(self, email):
+        self.email.default = email
+        self.process()
+
+
+    def set_default_profile_picture(self, user_profile_picture):
         self.profile_picture.default = user_profile_picture
         self.process()
 

@@ -38,6 +38,7 @@ class User(UserMixin, db.Model):
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
     profile_picture = db.Column(db.String(255), default="/static/assets/img/avatars/default-profile.jpg")
+    when_joined = db.Column(db.DateTime, default=datetime.utcnow)
     bio = db.Column(db.String(50))
     location = db.Column(db.String(50))
     gender = db.Column(db.String(10))
@@ -339,8 +340,8 @@ def settings():
         new_profile_picture = form.profile_picture.data
 
         # Update data only if different
-        if new_username and new_username != current_user.username:
-            current_user.username = new_username
+        if new_username and new_username != current_user.name:
+            current_user.name = new_username
         
         # Checking if new email field is not empty
         if new_email and new_email != current_user.email:
