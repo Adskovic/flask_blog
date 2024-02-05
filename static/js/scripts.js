@@ -102,3 +102,14 @@ function toggleForm(formId) {
   var form = document.getElementById(formId)
   form.classList.toggle('hidden');
 }
+
+$(document).ready(function () {
+  $(".delete-comment").click(function (e) {
+    e.preventDefault();
+    var url = $(this).attr('data-delete-url');
+
+    $("#confirmDeleteBtn").click(function () {
+      window.location.href = url;
+    });
+  });
+});

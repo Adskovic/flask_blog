@@ -28,6 +28,7 @@
     {% endif %}
 {% endwith %}
 
+
 <article>
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -41,8 +42,8 @@
                     <a class="btn btn-primary" href="{{url_for('edit_post', post_id=post.id)}}"><i class="bi bi-pencil-fill"></i> Edit Post</a>
                 </div>
                 {% endif %}
-
-
+                
+                
                 <!-- Comments Area -->
                 <h4>{{ post.post_comments|length }} comments</h4>
                 <div class="comment border-top">
@@ -50,66 +51,84 @@
                         
                         <!-- Show all comments -->
                         {% for comment in post.post_comments %}
-                            <li class="commentCard rounded-3 p-3">
-                                <div class="commenterInfo d-flex flex-row">
-                                    <a href="#"><img src="{{ comment.comment_author.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block"/></a>
-                                    <div class="d-flex flex-column justify-content-start">
-                                        {% if comment.comment_author.id == 1 %}
-                                        <span>
-                                            <a class="commenterName text-decoration-none" href="{{ url_for('view_user_profile', user_id=comment.comment_author.id) }}" style="color: crimson;">{{ comment.comment_author.name }}</a>
-                                        </span>
-                                        {% else %}
-                                        <span>
-                                            <a class="commenterName text-decoration-none" href="{{ url_for('view_user_profile', user_id=comment.comment_author.id) }}">{{ comment.comment_author.name }}</a>
-                                        </span>
-                                        {% endif %}
-                                        <span class="date text-body-secondary" >Commented - {{ comment.created_at.strftime("%d %b %Y") }}</span>
-                                    </div>
+                        <li class="commentCard rounded-3 p-3">
+                            <div class="commenterInfo d-flex flex-row">
+                                <a href="#"><img src="{{ comment.comment_author.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block"/></a>
+                                <div class="d-flex flex-column justify-content-start">
+                                    {% if comment.comment_author.id == 1 %}
+                                    <span>
+                                        <a class="commenterName text-decoration-none" href="{{ url_for('view_user_profile', user_id=comment.comment_author.id) }}" style="color: crimson;">{{ comment.comment_author.name }}</a>
+                                    </span>
+                                    {% else %}
+                                    <span>
+                                        <a class="commenterName text-decoration-none" href="{{ url_for('view_user_profile', user_id=comment.comment_author.id) }}">{{ comment.comment_author.name }}</a>
+                                    </span>
+                                    {% endif %}
+                                    <span class="date text-body-secondary" >Commented - {{ comment.created_at.strftime("%d %b %Y") }}</span>
                                 </div>
-                                <div class="commentTextArea mt-2">
-                                    <p class="commentText">{{comment.text|safe }}</p>
-                                </div>
-
-                                <!-- Media icons -->
-                                <div class="media-icons">
-                                    <div class="d-flex flex-row fs-12">
-                                        <div class="media-icons">
-                                            <div class="d-flex flex-row fs-12">
-                                                <div class="like p-1 d-flex cursor text-body-secondary text-center align-items-center">
-                                                    {% if current_user.is_authenticated %}
-                                                        <a class="like-comment" href="/like_comment/{{comment.id}}">
-                                                            {% if comment.likes|selectattr('author_id', 'eq', current_user.id)|list %}
-                                                                <i class="like-btn bi bi-hand-thumbs-up-fill" style="color: #20639B;"></i>
-                                                            {% else %}
-                                                                <i class="like-btn bi bi-hand-thumbs-up"></i>
-                                                            {% endif %}
-                                                        </a>
-                                                        <span class="ms-1">{{ comment.likes|length }} Like</span>
+                            </div>
+                            <div class="commentTextArea mt-2">
+                                <p class="commentText">{{comment.text|safe }}</p>
+                            </div>
+                            
+                            <!-- Media icons -->
+                            <div class="media-icons">
+                                <div class="d-flex flex-row fs-12">
+                                    <div class="media-icons">
+                                        <div class="d-flex flex-row fs-12">
+                                            <div class="like p-1 d-flex cursor text-body-secondary text-center align-items-center">
+                                                {% if current_user.is_authenticated %}
+                                                <a class="like-comment" href="/like_comment/{{comment.id}}">
+                                                    {% if comment.likes|selectattr('author_id', 'eq', current_user.id)|list %}
+                                                    <i class="like-btn bi bi-hand-thumbs-up-fill" style="color: #20639B;"></i>
                                                     {% else %}
-                                                        <i class="like-btn bi bi-hand-thumbs-up"></i>
-                                                        <span class="ms-1">{{ comment.likes|length }} Like</span>
+                                                    <i class="like-btn bi bi-hand-thumbs-up"></i>
                                                     {% endif %}
-                                                </div>
-                                                {% if current_user and (current_user.id == comment.comment_author.id or current_user.id == 1) %}
-                                                    <div class="delete p-1 d-flex cursor text-body-secondary align-items-center">
-                                                        <a class="delete-comment" href="{{ url_for('delete_comment', comment_id=comment.id) }}">
-                                                            <i class="delete-btn bi bi-trash-fill"></i>
-                                                        </a>
-                                                        <span class="ms-1">Delete</span>
-                                                    </div>
+                                                </a>
+                                                <span class="ms-1">{{ comment.likes|length }} Like</span>
+                                                {% else %}
+                                                <i class="like-btn bi bi-hand-thumbs-up"></i>
+                                                <span class="ms-1">{{ comment.likes|length }} Like</span>
                                                 {% endif %}
+                                            </div>
+                                            {% if current_user and (current_user.id == comment.comment_author.id or current_user.id == 1) %}
+                                            <div class="delete p-1 d-flex cursor text-body-secondary align-items-center">
+                                                <a class="delete-comment" data-delete-url="{{ url_for('delete_comment', comment_id=comment.id) }}" data-bs-toggle="modal" data-bs-target="#commentDeleteModal">
+                                                    <i class="delete-btn bi bi-trash-fill"></i>
+                                                </a>
+                                                <span class="ms-1">Delete</span>
+                                            </div>
+                                            {% endif %}
+                                        </div>
                                     </div>
+                                </li>
+                                <!-- Modal -->
+                                <div class="modal fade" id="commentDeleteModal" tabindex="-1" aria-labelledby="commentDeleteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-sm modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="commentDeleteModalLabel">Delete comment</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Are you sure you want to delete this comment?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
-                            </li>
-                        {% endfor %}
-
-                        <!-- Comment Form Container -->
-                        {% if current_user.is_authenticated %}
-                        <div class="post-comment bg-light rounded-3 p-2">
-                            <div class="d-flex flex-row align-items-start">
-                                <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block">
-                                    <div class="formContainer form-control bg-body-tertiary border-0 shadow-none">
-                                        {{ form.csrf_token() }}
+                                {% endfor %}
+                                
+                                <!-- Comment Form Container -->
+                                {% if current_user.is_authenticated %}
+                                <div class="post-comment bg-light rounded-3 p-2">
+                                    <div class="d-flex flex-row align-items-start">
+                                        <img src="{{ current_user.profile_picture }}" alt="mdo" width="32" height="32" class="rounded mx-auto d-block">
+                                        <div class="formContainer form-control bg-body-tertiary border-0 shadow-none">
+                                            {{ form.csrf_token() }}
                                         {{ render_form(form, novalidate=True, button_map={"submit": "btn btn-outline-primary btn-sm"}) }}
                                     </div>
                                 </div>
@@ -121,5 +140,7 @@
         </div>
     </div>
 </article>
+<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
 {% include "footer.html" %}
