@@ -515,6 +515,17 @@ header.masthead {
 }
 
 @media screen and (max-width: 425px) {
+
+  .card {
+    margin-right: 0!important;
+    margin-left: 0!important;
+  }
+
+  .card-body {
+    margin-right: 0!important;
+    margin-left: 0!important;
+  }
+
   header.masthead {
     margin: 5px 25px 0 25px!important;
     height: auto;
