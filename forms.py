@@ -39,6 +39,8 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username')
     email = EmailField('Email')
     password = PasswordField('New password', render_kw={"placeholder": "••••••••"})
+    bio = StringField('Bio', render_kw={"placeholder": "Add"})
+    location = StringField('Location', render_kw={"placeholder": "Add"})
     profile_picture = SelectField('Profile Picture', choices=[
         ('/static/assets/img/avatars/default-profile.jpg', 'None'), 
         ('/static/assets/img/avatars/man_1.png', 'Man 1'),
@@ -80,8 +82,17 @@ class EditProfileForm(FlaskForm):
         self.process()
 
 
+    def set_default_location(self, user_location):
+        self.location.default = user_location
+        self.process()
+
+    def set_default_bio(self, user_bio):
+        self.bio.default = user_bio
+        self.process()
+
+
 #TODO: Consider merging both edit profile forms into one
-class EditProfileInfoForm(FlaskForm):
-    bio = StringField('Bio')
-    location = StringField('Location')
-    submit = SubmitField('Save')
+# class EditProfileInfoForm(FlaskForm):
+#     bio = StringField('Bio')
+#     location = StringField('Location')
+#     submit = SubmitField('Save')

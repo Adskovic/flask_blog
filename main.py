@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship, joinedload
-from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditProfileForm, EditProfileInfoForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditProfileForm
 
 
 
@@ -272,7 +272,7 @@ def delete_comment(comment_id):
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    form = EditProfileInfoForm()
+    form = EditProfileForm()
 
     if form.validate_on_submit():
 
@@ -337,6 +337,8 @@ def settings():
         new_email = form.email.data
         new_password = form.password.data
         new_profile_picture = form.profile_picture.data
+        new_location = form.location.data
+        new_bio = form.bio.data
 
         # Update data only if different
         if new_username and new_username != current_user.name:
@@ -345,6 +347,16 @@ def settings():
         # Checking if new email field is not empty
         if new_email and new_email != current_user.email:
             current_user.email = new_email
+
+
+        # Checking if new location field is not empty
+        if new_location != current_user.location:
+            current_user.location = new_location
+
+
+        # Checking if new bio field is not empty
+        if new_bio != current_user.bio:
+            current_user.bio = new_bio
 
 
         if new_password:

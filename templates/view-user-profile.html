@@ -28,39 +28,51 @@
                             <img src="{{ user.profile_picture }}" alt="Profile Picture">
                         </div>
                     </div>
-                    <h1 class="mb-3 mt-2 text-center">{{ user.name }}</h1>
-                    <div class="role-container text-center mt-3">
+                    <h1 class="mb-2 mt-2 text-center">{{ user.name }}</h1>
+                    <div class="role-container text-center">
                         {% if user.id == 1 %}
                         <span class="p-1" style="
+                        font-size: 13px;
                         border: 2px solid #ffc839;
                         border-radius: 10px;
                         background-color: #ffc839;
                         color: #263449;">Admin</span>
                         {% elif user.id == 2 %}
                         <span class="p-1" style="
+                        font-size: 13px;
                         border: 2px solid #c966a9;
                         border-radius: 10px;
                         background-color: #c966a9;
                         color: #263449;">Moderator</span>
                         {% else %}
                         <span class="p-1" style="
+                        font-size: 13px;
                         border: 2px solid #2798c4;
                         border-radius: 10px;
                         background-color: #2798c4;
                         color: #263449;">User</span>
                         {% endif %}
                     </div>
-                    <div class="pt-4 ps-4 mt-3 align-items-center">
-                        <p>Joined: {{ current_user.when_joined.strftime("%d %B %Y") }}</p>
-                        <p>Total comments: {{ user.comments|length }} </p>
-                        <p>Email: {{ user.email }} </p>
-                        <p>Location: {{ user.location }}</p>
+                    <div class="pt-4 ps-2 mt-3">
+                        <p><i class="bi bi-calendar2-plus-fill text-body-tertiary"></i> <em>Joined: </em>{{ user.when_joined.strftime("%d %B %Y") }}</p>
+                        <p><i class="bi bi-chat-left-text-fill text-body-tertiary"></i><em> Comments:</em> {{ user.comments|length }}</p>
+                        <p><i class="bi bi-envelope-fill text-body-tertiary"></i><em> Email:</em> {{ user.email }} </p>
+                        <p><i class="bi bi-geo-alt-fill text-body-tertiary"></i><em> Location:</em>
+                            {% if user.location == "" %}
+                            <em class="opacity-50"> ━</em>
+                            {% else %}
+                            {{ user.location }}</p>
+                            {% endif %}
                     </div>
                 </div>
                 <!-- Profile Bio -->
                 <div class="user-bio col-xl-6 mx-2">
                     <h4 class="mt-3">Bio:</h4>
+                    {% if user.bio == "" %}
+                    <em class="text-center mt-4 opacity-50"> User did not write his bio yet.</em>
+                    {% else %}
                     <p class="text-center mt-4">{{ user.bio }}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

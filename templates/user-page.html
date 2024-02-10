@@ -29,24 +29,27 @@
                                 <img src="{{ current_user.profile_picture }}" alt="Profile Picture">
                             </div>
                         </div>
-
+                        
                         <!-- Profile info -->
-                        <h1 class="mb-3 mt-2 text-center">{{ current_user.name }}</h1> 
-                        <div class="role-container text-center mt-3">
+                        <h1 class="mb-2 mt-2 text-center">{{ current_user.name }}</h1> 
+                        <div class="role-container text-center">
                             {% if current_user.id == 1 %}
                             <span class="p-1" style="
+                            font-size: 13px;
                             border: 2px solid #ffc839;
                             border-radius: 10px;
                             background-color: #ffc839;
                             color: #263449;">Admin</span>
                             {% elif current_user.id == 2 %}
                             <span class="p-1" style="
+                            font-size: 13px;
                             border: 2px solid #c966a9;
                             border-radius: 10px;
                             background-color: #c966a9;
                             color: #263449;">Moderator</span>
                             {% else %}
                             <span class="p-1" style="
+                            font-size: 13px;
                             border: 2px solid #2798c4;
                             border-radius: 10px;
                             background-color: #2798c4;
@@ -54,33 +57,25 @@
                             {% endif %}
                         </div>
                         <div class="pt-4 ps-2 mt-3">
-                            <p><i class="bi bi-calendar2-plus-fill text-body-tertiary"></i><em> Joined:</em> {{ current_user.when_joined.strftime("%d %B %Y") }}</p>
+                            <p><i class="bi bi-calendar2-plus-fill text-body-tertiary"></i> <em>Joined: </em>{{ current_user.when_joined.strftime("%d %B %Y") }}</p>
                             <p><i class="bi bi-chat-left-text-fill text-body-tertiary"></i><em> Comments:</em> {{ current_user.comments|length }}</p>
                             <p><i class="bi bi-envelope-fill text-body-tertiary"></i><em> Email:</em> {{ current_user.email }} </p>
                             <p><i class="bi bi-geo-alt-fill text-body-tertiary"></i><em> Location:</em>
                                 {% if current_user.location == "" %}
-                                <em class="opacity-50">Add <a href="#" onclick="toggleForm('editLocationForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></em>
+                                <em class="opacity-50"> ━</em>
                                 {% else %}
-                                {{ current_user.location }} <a href="#" onclick="toggleForm('editLocationForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
+                                {{ current_user.location }}</p>
                                 {% endif %}
-                            <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editLocationForm">
-                                {{ form.csrf_token }}
-                                {{ form.location }} {{ form.submit }}
-                            </form>
                         </div>
                     </div>
                     <!-- Profile Bio -->
                     <div class="user-bio col-xl-6 mx-2">
                         <h4 class="mt-3">Bio:</h4>
                         {% if current_user.bio == "" %}
-                        <em class="text-center mt-4 opacity-50">Add <a href="#" onclick="toggleForm('editBioForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></em>
+                        <em class="text-center mt-4 opacity-50"> Write something about yourself.</em>
                         {% else %}
-                        <p class="text-center mt-4">{{ current_user.bio }} <a href="#" onclick="toggleForm('editBioForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></p>
+                        <p class="text-center mt-4">{{ current_user.bio }}</p>
                         {% endif %}
-                            <form action="{{ url_for('profile')}}" method="POST" class="hidden" id="editBioForm">
-                                {{ form.csrf_token }}
-                                {{ form.bio }} {{ form.submit }}
-                            </form>
                     </div>
                 </div>
             </div>

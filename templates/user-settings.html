@@ -23,6 +23,8 @@
                 {{ form.set_default_username(current_user.name) }}
                 {{ form.set_default_email(current_user.email) }}
                 {{ form.set_default_profile_picture(current_user.profile_picture) }}
+                {{ form.set_default_location(current_user.location) }}
+                {{ form.set_default_bio(current_user.bio) }}
             </div>
             <div class="mx-4 mb-5">
                 {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
