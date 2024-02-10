@@ -18,15 +18,19 @@
     <div class="card mx-5 my-3 border-0">
         <svg class="bd-placeholder-img card-img-top py-4 text-center text-light rounded-4" style="background-image: url(/static/assets/img/home.jpg);"></svg>
             <div class="card-body mx-5">
-                <!-- Profile information -->
+
+                <!-- Profile section -->
                 <div class="row row-cols-lg-1 gx-4 gx-lg-5 justify-content-center">
                     <div class="user-info col-xl-3">
+
                         <!-- Profile picture -->
                         <div class="profile-header">
                             <div class="profile-picture-container">
                                 <img src="{{ current_user.profile_picture }}" alt="Profile Picture">
                             </div>
                         </div>
+
+                        <!-- Profile info -->
                         <h1 class="mb-3 mt-2 text-center">{{ current_user.name }}</h1> 
                         <div class="role-container text-center mt-3">
                             {% if current_user.id == 1 %}
@@ -49,11 +53,11 @@
                             color: #263449;">User</span>
                             {% endif %}
                         </div>
-                        <div class="pt-4 ps-4 mt-3 align-items-center">
-                            <p>Joined: {{ current_user.when_joined.strftime("%d %B %Y") }}</p>
-                            <p>Total comments: {{ current_user.comments|length }} </p>
-                            <p>Email: {{ current_user.email }} </p>
-                            <p>Location: 
+                        <div class="pt-4 ps-2 mt-3">
+                            <p><i class="bi bi-calendar2-plus-fill text-body-tertiary"></i><em> Joined:</em> {{ current_user.when_joined.strftime("%d %B %Y") }}</p>
+                            <p><i class="bi bi-chat-left-text-fill text-body-tertiary"></i><em> Comments:</em> {{ current_user.comments|length }}</p>
+                            <p><i class="bi bi-envelope-fill text-body-tertiary"></i><em> Email:</em> {{ current_user.email }} </p>
+                            <p><i class="bi bi-geo-alt-fill text-body-tertiary"></i><em> Location:</em>
                                 {% if current_user.location == "" %}
                                 <em class="opacity-50">Add <a href="#" onclick="toggleForm('editLocationForm')"><i class="bi bi-pencil-fill opacity-50" style="font-size: 0.8rem;"></i></a></em>
                                 {% else %}
@@ -63,7 +67,6 @@
                                 {{ form.csrf_token }}
                                 {{ form.location }} {{ form.submit }}
                             </form>
-                            <!-- TODO: Add gender info -->
                         </div>
                     </div>
                     <!-- Profile Bio -->

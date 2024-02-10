@@ -26,7 +26,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 db = SQLAlchemy()
 db.init_app(app)
 
-
+# TODO: Delete gender from user table
 # CONFIGURE TABLES
 class User(UserMixin, db.Model):
     __tablename__ = "users"
