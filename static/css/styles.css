@@ -330,6 +330,8 @@ header.masthead {
 .profile-picture-container img {
   width: 140px;
   border-radius: 50%;
+  background-color: var(--bs-tertiary-bg);
+  padding: 3px;
   /* border: 6px solid var(--bs-body-bg); */
 }
 
