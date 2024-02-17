@@ -79,17 +79,6 @@
   })
 })()
 
-function startEditing() {
-  document.querySelector('.profile-section').style.display = 'none';
-  document.querySelector('.profile-form').style.display = 'block';
-  document.querySelector('.edit-btn').style.display = 'none';
-}
-
-function cancelEditing() {
-  document.querySelector('.profile-section').style.display = 'block';
-  document.querySelector('.profile-form').style.display = 'none';
-  document.querySelector('.edit-btn').style.display = 'inline-block';
-}
 
 function updateSelectedAvatar(value) {
   var profilePictureSelect = document.getElementById('profile_picture');

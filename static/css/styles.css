@@ -186,8 +186,6 @@ body {
   min-height: 100vh;
 }
 
-
-
 a {
   color: #2798c4;
 }
@@ -332,7 +330,6 @@ header.masthead {
   border-radius: 50%;
   background-color: var(--bs-tertiary-bg);
   padding: 3px;
-  /* border: 6px solid var(--bs-body-bg); */
 }
 
 .user-info {
@@ -395,7 +392,6 @@ header.masthead {
   margin-right: 5px;
   padding: 0;
 }
-
 
 .formContainer .form-label {
   margin-left: 5px;
@@ -463,19 +459,23 @@ header.masthead {
   margin-top: 1.875rem;
   margin-bottom: 0.625rem;
 }
+
 .post-preview > a > .post-subtitle {
   font-weight: 300;
   margin-bottom: 0.625rem;
 }
+
 .post-preview > .post-meta {
   font-size: 1.125rem;
   font-style: italic;
   margin-top: 0;
   color: #6c757d;
 }
+
 .post-preview > .post-meta > a {
   text-decoration: none;
 }
+
 @media (min-width: 992px) {
   .post-preview > a > .post-title {
     font-size: 2.25rem;

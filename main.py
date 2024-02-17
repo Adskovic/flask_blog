@@ -26,7 +26,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 db = SQLAlchemy()
 db.init_app(app)
 
-# TODO: Delete gender from user table
+
 # CONFIGURE TABLES
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -40,7 +40,6 @@ class User(UserMixin, db.Model):
     when_joined = db.Column(db.DateTime, default=datetime.utcnow)
     bio = db.Column(db.String(50))
     location = db.Column(db.String(50))
-    gender = db.Column(db.String(10))
     likes = relationship("Like", back_populates="users")
 
 
@@ -79,9 +78,9 @@ class Like(db.Model):
 
 
 
-
 with app.app_context():
     db.create_all()
+
 
 # Admin only decorator
 def admin_only(f):
@@ -91,6 +90,11 @@ def admin_only(f):
             return abort(403)
         return f(*args, **kwargs)
     return decorated_func
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.get_or_404(User, user_id)
 
 
 
@@ -128,10 +132,6 @@ def register():
 
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return db.get_or_404(User, user_id)
-
 
 # Login route
 @app.route('/login', methods=["GET", "POST"])
@@ -166,6 +166,7 @@ def logout():
     return redirect(url_for('get_all_posts'))
 
 
+# Home/index route
 @app.route('/')
 def get_all_posts():
     page = request.args.get("page", 1, type=int)
@@ -173,11 +174,13 @@ def get_all_posts():
     return render_template("index.html", all_posts=posts)
 
 
+# Post route with comment form
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
 def show_post(post_id):
     requested_post = db.get_or_404(BlogPost, post_id)
-    # Comment form
+
     comment_form = CommentForm()
+
     # Only allow logged-in users to comment on posts
     if comment_form.validate_on_submit():
         if not current_user.is_authenticated:
@@ -191,10 +194,11 @@ def show_post(post_id):
         )
         db.session.add(new_comment)
         db.session.commit()
+
     return render_template("post.html", post=requested_post, current_user=current_user, form=comment_form)
 
 
-# Decorator so only an admin user can create a new post
+# Add new post route with decorator so only an admin user can create a new post
 @app.route("/new-post", methods=["GET", "POST"])
 @admin_only
 def add_new_post():
@@ -214,7 +218,7 @@ def add_new_post():
     return render_template("make-post.html", form=form)
 
 
-# Decorator so only an admin user can edit a post
+# Edit post route with decorator so only an admin user can edit a post
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
 @admin_only
 def edit_post(post_id):
@@ -237,7 +241,7 @@ def edit_post(post_id):
     return render_template("make-post.html", form=edit_form, is_edit=True)
 
 
-# Only admin can delete a post
+# Delete post route, only admin can delete a post
 @app.route("/delete/<int:post_id>")
 @admin_only
 def delete_post(post_id):
@@ -247,7 +251,7 @@ def delete_post(post_id):
     return redirect(url_for('get_all_posts'))
 
 
-# Only comment author or admin can delete a comment
+# Comment delete route, only comment author or admin/moderator can delete a comment
 @app.route("/delete_comment/<int:comment_id>")
 @login_required
 def delete_comment(comment_id):
@@ -267,41 +271,15 @@ def delete_comment(comment_id):
 
 
 
-
-
-@app.route('/profile', methods=['GET', 'POST'])
+# User profile page route
+@app.route('/profile')
 @login_required
 def profile():
-    form = EditProfileForm()
-
-    if form.validate_on_submit():
-
-        new_bio = form.bio.data
-        new_location = form.location.data
+    return render_template('user-page.html')
 
 
-        if new_bio is not None and new_bio != current_user.bio:
-            current_user.bio = new_bio
-            flash('Profile updated successfully', 'success')
 
-        elif new_bio is not None:
-            flash('Already there', 'warning')
-
-        if new_location is not None and new_location != current_user.location:
-            current_user.location = new_location
-            flash('Profile updated successfully', 'success')
-
-        elif new_location is not None:
-            flash('Already there', 'warning')
-
-
-        db.session.commit()
-
-        return redirect(url_for('profile'))
-
-    return render_template('user-page.html', form=form)
-
-
+# Like route. Each user can like one comment once
 @app.route('/like_comment/<comment_id>', methods=['GET'])
 @login_required
 def like_comment(comment_id):
@@ -318,14 +296,11 @@ def like_comment(comment_id):
         db.session.add(like)
         db.session.commit()
 
-    # comment.likes_count += 1
-    # db.session.commit()
-
     return redirect(url_for('show_post', post_id=comment.parent_post.id))
 
 
 
-
+# User setting route
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
@@ -383,20 +358,24 @@ def settings():
 
 
 
+# Route to view profile-page of another user
 @app.route('/user/id=<int:user_id>')
 def view_user_profile(user_id):
     user = db.get_or_404(User, user_id)
     return render_template('view-user-profile.html', user=user)
 
 
+# About page route
 @app.route("/about")
 def about():
     return render_template("about.html")
 
 
+# Contact page route
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
 
 
 if __name__ == "__main__":

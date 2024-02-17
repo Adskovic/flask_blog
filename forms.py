@@ -90,9 +90,3 @@ class EditProfileForm(FlaskForm):
         self.bio.default = user_bio
         self.process()
 
-
-#TODO: Consider merging both edit profile forms into one
-# class EditProfileInfoForm(FlaskForm):
-#     bio = StringField('Bio')
-#     location = StringField('Location')
-#     submit = SubmitField('Save')
