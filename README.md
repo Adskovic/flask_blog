@@ -1,6 +1,6 @@
 # Project Documentation
 
-## Table of Contents
+## 📌 Table of Contents
 
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
@@ -12,10 +12,9 @@
       1. [Editing Profile](#editing-profile)
       2. [Avatar Selection](#avatar-selection)
       3. [Profile Bio](#profile-bio)
-   4. [Deleting Comments](#deleting-comments)
+   4. [Deleting Comments with confirmation modal](#deleting-comments-with-confirmation-modal)
    5. [Commenting on Posts](#commenting-on-posts)
    6. [Admin and Moderator Roles](#admin-and-moderator-roles)
-   7. [Post Management by Admin](#post-management-by-admin)
    8. [Like Functionality for Comments](#like-functionality-for-comments)
    9. [Pagination](#pagination)
 6. [What I Learned](#what-i-learned)
@@ -29,7 +28,7 @@ It serves as a user profile display and management system with additional featur
 
 ---
 
-## Project Structure<a name="project-structure"></a>
+## 📜 Project Structure<a name="project-structure"></a>
 
 The project follows a standard Flask application structure. Key directories and files include:
 - **templates**: HTML templates for rendering pages.
@@ -39,7 +38,7 @@ The project follows a standard Flask application structure. Key directories and 
 
 ---
 
-## Dependencies<a name="dependencies"></a>
+## 🖥️ Dependencies<a name="dependencies"></a>
 
 The project relies on the following technologies and libraries:
 - [Bootstrap 5](https://getbootstrap.com/)
@@ -47,7 +46,7 @@ The project relies on the following technologies and libraries:
 
 ---
 
-## Getting Started<a name="getting-started"></a>
+## 🚀 Getting Started<a name="getting-started"></a>
 
 To run the project locally, follow these steps:
 
@@ -58,62 +57,63 @@ To run the project locally, follow these steps:
 
 ---
 
-## Features<a name="features"></a>
+## 🌟 Features<a name="features"></a>
 
-### Theme Toggle<a name="theme-toggle"></a>
+### 1. Theme Toggle<a name="theme-toggle"></a>
 
 The project includes a theme toggle functionality that allows users to switch between light and dark themes. The theme is automatically set based on the user's system preference, but users can manually toggle it as well.
 
+----
 
-### Profile Section<a name="profile-section"></a>
+### 2. Profile Section<a name="profile-section"></a>
 
 The main profile section displays user information, including a profile picture, name, role, join date, comment count, email, and location (if available). User roles are color-coded (Admin: yellow, Moderator: purple, User: blue).
 
-#### - Editing Profile<a name="editing-profile"></a>
+- #### Editing Profile<a name="editing-profile"></a>
 
    Users can edit their profiles in profile settings page. This reveals a form for updating profile details.
 
-#### - Avatar Selection<a name="avatar-selection"></a>
+- #### Avatar Selection<a name="avatar-selection"></a>
 
    Users can select their profile picture from a predefined list of avatars. The avatar selection is facilitated through the `updateSelectedAvatar` JavaScript function.
 
-#### - Profile Bio<a name="profile-bio"></a>
+- #### Profile Bio<a name="profile-bio"></a>
 
    Users can provide a bio that is displayed in the profile section. If no bio is provided, a placeholder message encourages users to share something about themselves.
 
+----
 
-
-### Deleting Comments with confirmation modal<a name="deleting-comments-with-confirmation-modal"></a>
+### 3. Deleting Comments with confirmation modal<a name="deleting-comments-with-confirmation-modal"></a>
 
 The application utilizes jQuery to handle the deletion of comments. When a user or admin attempts to delete a comment, a confirmation modal pops up to ensure that the action is intentional, preventing accidental deletions.
 
+----
 
-
-### Commenting on Posts<a name="commenting-on-posts"></a>
+### 4. Commenting on Posts<a name="commenting-on-posts"></a>
 
 Users have the ability to add comments to posts. Each post can have multiple comments, and users can express their thoughts or ask questions by participating in the comment section.
 
+----
 
-
-### Admin and Moderator Roles<a name="admin-and-moderator-roles"></a>
+### 5. Admin and Moderator Roles<a name="admin-and-moderator-roles"></a>
 
 The application supports different user roles, including Admin and Moderator. Admin users have the privilege to add new posts, edit existing posts, and delete comments from all users. Moderators, on the other hand, can delete comments from other users.
 
+----
 
-
-### Like Functionality for Comments<a name="like-functionality-for-comments"></a>
+### 6. Like Functionality for Comments<a name="like-functionality-for-comments"></a>
 
 Users can express appreciation for comments by liking them. This adds a positive engagement aspect to the platform, allowing users to show support for valuable or interesting contributions.
 
+----
 
-
-### Pagination<a name="pagination"></a>
+### 7. Pagination<a name="pagination"></a>
 
 The pagination functionality in the index.html file enables users to navigate through a list of blog posts more efficiently.
 
 ---
 
-## What I Learned<a name="what-i-learned"></a>
+## 🧠 What I Learned<a name="what-i-learned"></a>
 
 Throughout the development of this project, I gained valuable experience in the following areas:
 
