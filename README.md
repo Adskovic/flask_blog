@@ -69,15 +69,15 @@ The project includes a theme toggle functionality that allows users to switch be
 
 The main profile section displays user information, including a profile picture, name, role, join date, comment count, email, and location (if available). User roles are color-coded (Admin: yellow, Moderator: purple, User: blue).
 
-####    Editing Profile<a name="editing-profile"></a>
+   ####    Editing Profile<a name="editing-profile"></a>
 
 Users can edit their profiles in profile settings page. This reveals a form for updating profile details.
 
-####    Avatar Selection<a name="avatar-selection"></a>
+   ####    Avatar Selection<a name="avatar-selection"></a>
 
 Users can select their profile picture from a predefined list of avatars. The avatar selection is facilitated through the `updateSelectedAvatar` JavaScript function.
 
-####    Profile Bio<a name="profile-bio"></a>
+   ####    Profile Bio<a name="profile-bio"></a>
 
 Users can provide a bio that is displayed in the profile section. If no bio is provided, a placeholder message encourages users to share something about themselves.
 
